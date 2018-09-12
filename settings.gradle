@@ -1,0 +1,5 @@
+rootProject.name = 'kotlin-tryme'
+
+include ':common'
+include ':jvm'
+include ':js'
