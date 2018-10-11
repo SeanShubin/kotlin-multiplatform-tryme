@@ -1,5 +1,6 @@
 package com.seanshubin.tryme.jvm.process
 
+import com.seanshubin.tryme.common.duration.MillisecondsFormat
 import com.seanshubin.tryme.jvm.timer
 import java.nio.file.Files
 import java.nio.file.Path
@@ -109,5 +110,5 @@ fun main(args: Array<String>) {
         noteworthyResults.map { it.directory }.forEach(::println)
         println(noteworthyResults.size)
     }
-    println(timeTaken)
+    println(MillisecondsFormat.format(timeTaken))
 }
