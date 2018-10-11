@@ -2,9 +2,12 @@ apply plugin: 'kotlin-platform-jvm'
 
 archivesBaseName = 'kotlin-tryme-jvm'
 
+kotlin { experimental { coroutines 'enable' } }
+
 dependencies {
     expectedBy project(':common')
     compile libraries.kotlin_stdlib
+    compile libraries.kotlin_coroutines_core
     testCompile libraries.kotlin_test_junit
 }
 
