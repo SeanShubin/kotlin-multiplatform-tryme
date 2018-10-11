@@ -13,14 +13,10 @@ interface Command {
 }
 
 class CommandResult(val isSuccessful: Boolean, val input: ProcessInput, val output: ProcessOutput) {
-    fun toMultipleLineString(): List<String> =
-            listOf("isSuccessful = $isSuccessful") + composeInput() + composeOutput()
-
-    private fun composeInput(): List<String> =
-            listOf("input") + input.toMultipleLineString().indent()
-
-    private fun composeOutput(): List<String> =
-            listOf("output") + output.toMultipleLineString().indent()
+    fun toMultipleLineString(): List<String> = listOf("CommandResult") + compose().indent()
+    private fun compose(): List<String> = listOf("isSuccessful = $isSuccessful") + composeInput() + composeOutput()
+    private fun composeInput(): List<String> = input.toMultipleLineString()
+    private fun composeOutput(): List<String> = output.toMultipleLineString()
 }
 
 fun expectZeroExitCode(input: ProcessInput, output: ProcessOutput) = CommandResult(output.exitCode == 0, input, output)
@@ -59,8 +55,9 @@ object GitUnmergedChanges : Command {
 }
 
 class DirectoryResult(val directory: Path, val commandResults: List<CommandResult>) {
-    fun toMultipleLineString(): List<String> = listOf("directory = $directory") + composeCommandResults()
+    fun toMultipleLineString(): List<String> = listOf("DirectoryResult") + compose().indent()
     fun hasUnsuccessfulCommand(): Boolean = commandResults.any { !it.isSuccessful }
+    private fun compose(): List<String> = listOf("directory = $directory") + composeCommandResults()
     private fun composeCommandResults(): List<String> = listOf("commandResults") + commandResults.flatMap { it.toMultipleLineString() }.indent()
 }
 
@@ -90,7 +87,7 @@ fun runCommandsInDirectory(processRunner: ProcessRunner, commands: List<Command>
 }
 
 fun runCommandsInDirectories(processRunner: ProcessRunner, commands: List<Command>, directories: List<Path>): List<DirectoryResult> {
-    return directories.map { directory ->
+    return directories.mapAsyncCachedThreadPool { directory ->
         runCommandsInDirectory(processRunner, commands, directory)
     }
 }
