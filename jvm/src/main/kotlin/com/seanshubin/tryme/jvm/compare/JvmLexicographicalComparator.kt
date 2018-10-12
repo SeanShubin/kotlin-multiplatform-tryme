@@ -1,4 +1,4 @@
-package com.seanshubin.tryme.jvm
+package com.seanshubin.tryme.jvm.compare
 
 import com.seanshubin.tryme.common.LexicographicalComparator
 

@@ -1,4 +1,4 @@
-package com.seanshubin.tryme.jvm
+package com.seanshubin.tryme.jvm.formatter
 
 import java.math.BigInteger
 

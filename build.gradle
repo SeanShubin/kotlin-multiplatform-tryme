@@ -35,7 +35,8 @@ ext {
             kotlin_test_common: "org.jetbrains.kotlin:kotlin-test-common:$kotlinVersion",
             kotlin_test_js: "org.jetbrains.kotlin:kotlin-test-js:$kotlinVersion",
             kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
-            kotlin_coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2"
+            kotlin_coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2",
+            khttp: 'com.github.jkcclemens:khttp:0.1.0'
     ]
 }
 

@@ -8,6 +8,7 @@ dependencies {
     expectedBy project(':common')
     compile libraries.kotlin_stdlib
     compile libraries.kotlin_coroutines_core
+    compile libraries.khttp
     testCompile libraries.kotlin_test_junit
 }
 
