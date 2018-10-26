@@ -2,11 +2,10 @@ package com.seanshubin.kotlin.tryme.jvm.caclulator
 
 import java.util.function.Predicate
 
-interface Cursor<T> {
+interface Cursor<ElementType, DetailType> {
     val isEnd: Boolean
-    val value: T
-    val pos:Int
-    fun valueIs(compareTo: T): Boolean
-    fun valueIs(predicate: Predicate<T>): Boolean
-    fun next(): Cursor<T>
+    val detail:DetailType
+    fun valueIs(compareTo: ElementType): Boolean
+    fun valueIs(predicate: Predicate<ElementType>): Boolean
+    fun next(): Cursor<ElementType, DetailType>
 }

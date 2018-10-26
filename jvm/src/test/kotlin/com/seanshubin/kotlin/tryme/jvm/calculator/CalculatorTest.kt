@@ -9,6 +9,11 @@ class CalculatorTest {
     @Test
     fun singleNumber(){
         val calculator = Calculator(StringCursor("1")).expr()
-        assertEquals(1, calculator.cursor.pos)
+        assertEquals(1, calculator.cursor.detail)
+    }
+    @Test
+    fun simpleAddition(){
+        val calculator = Calculator(StringCursor("1+2")).expr()
+        assertEquals(3, calculator.cursor.detail)
     }
 }

@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.caclulator
 
-data class Calculator(val cursor: Cursor<Char>) {
+data class Calculator(val cursor: Cursor<Char, Int>) {
     private fun next(): Calculator = Calculator(cursor.next())
     private fun valueIs(value: Char): Boolean = cursor.valueIs(value)
     private fun isWord(): Boolean = cursor.valueIs(StringCursor.word)
