@@ -1,23 +1,23 @@
 package com.seanshubin.tryme.jvm.caclulator
 
 data class Calculator(val cursor: Cursor<Char>) {
-    fun next(): Calculator = Calculator(cursor.next())
-    fun valueIs(value: Char): Boolean = cursor.valueIs(value)
-    fun isWord(): Boolean = cursor.valueIs(StringCursor.word)
-    fun isNumber(): Boolean = cursor.valueIs(StringCursor.number)
+    private fun next(): Calculator = Calculator(cursor.next())
+    private fun valueIs(value: Char): Boolean = cursor.valueIs(value)
+    private fun isWord(): Boolean = cursor.valueIs(StringCursor.word)
+    private fun isNumber(): Boolean = cursor.valueIs(StringCursor.number)
 
-    fun addOp(): Calculator {
+    private fun addOp(): Calculator {
         return if (valueIs('+') || valueIs('-')) next()
         else this
     }
 
-    fun multOp(): Calculator {
+    private fun multOp(): Calculator {
         return if (valueIs('*') || valueIs('/')) next()
         else this
     }
 
 
-    fun factorTail(): Calculator {
+    private fun factorTail(): Calculator {
         return if (valueIs('*') || valueIs('/')) {
             return multOp().factor().factorTail()
         } else {
@@ -25,7 +25,7 @@ data class Calculator(val cursor: Cursor<Char>) {
         }
     }
 
-    fun factor(): Calculator {
+    private fun factor(): Calculator {
         if (valueIs('(')) {
             if (next().expr().valueIs(')'))
                 return next()
@@ -41,7 +41,7 @@ data class Calculator(val cursor: Cursor<Char>) {
             throw RuntimeException("factor expected")
     }
 
-    fun termTail(): Calculator {
+    private fun termTail(): Calculator {
         return if (valueIs('+') || valueIs('-')) {
             addOp().term().termTail()
         } else {
@@ -49,7 +49,7 @@ data class Calculator(val cursor: Cursor<Char>) {
         }
     }
 
-    fun term(): Calculator = factor().factorTail()
+    private fun term(): Calculator = factor().factorTail()
 
     fun expr(): Calculator = term().termTail()
 }
