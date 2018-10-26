@@ -1,7 +1,8 @@
 package com.seanshubin.kotlin.tryme.jvm.caclulator
 
 data class Calculator(val cursor: Cursor<Char, Int>, val error:String? = null) {
-    private fun next(): Calculator = Calculator(cursor.next())
+    private fun next(): Calculator = copy(cursor = cursor.next())
+    private fun error(message:String): Calculator = copy(error = message)
     private fun valueIs(value: Char): Boolean = cursor.valueIs(value)
     private fun isWord(): Boolean = cursor.valueIs(StringCursor.word)
     private fun isNumber(): Boolean = cursor.valueIs(StringCursor.number)
@@ -23,11 +24,11 @@ data class Calculator(val cursor: Cursor<Char, Int>, val error:String? = null) {
             if (valueIs('(')) {
                 val expr = next().expr()
                 if (expr.valueIs(')')) expr.next()
-                else expr.copy(error = "closing ')' expected")
+                else error("closing ')' expected")
             } else if (valueIs('-')) next().factor()
             else if (isWord()) next()
             else if (isNumber()) next()
-            else copy(error="factor expected")
+            else error("factor expected")
 
     private fun termTail(): Calculator =
             if (valueIs('+') || valueIs('-')) addOp().term().termTail()

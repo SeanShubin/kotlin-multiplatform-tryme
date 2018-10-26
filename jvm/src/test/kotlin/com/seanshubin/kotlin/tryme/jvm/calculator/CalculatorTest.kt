@@ -18,6 +18,7 @@ class CalculatorTest {
         val calculator = Calculator(StringCursor("1+2")).expr()
         assertEquals(3, calculator.cursor.detail)
         assertNull(calculator.error)
+        println(calculator)
     }
     @Test
     fun errorAddition(){
