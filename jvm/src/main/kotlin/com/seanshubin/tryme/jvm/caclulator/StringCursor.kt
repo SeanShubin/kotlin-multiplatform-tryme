@@ -8,6 +8,7 @@ data class StringCursor(private val s: String, private val index: Int = 0) : Cur
     override fun valueIs(compareTo: Char): Boolean = !isEnd && value == compareTo
     override fun valueIs(predicate: Predicate<Char>): Boolean = !isEnd && predicate.test(value)
     override fun next(): Cursor<Char> = copy(index = index + 1)
+    override val pos: Int get() = index
 
     companion object {
         val word = Predicate<Char> { t -> Character.isAlphabetic(t.toInt()) }
