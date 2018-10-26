@@ -104,7 +104,7 @@ fun main(args: Array<String>) {
         val noteworthyResults = results.filter(::isNoteworthy)
         val lines = noteworthyResults.flatMap(DirectoryResult::toMultipleLineString)
         lines.forEach(::println)
-        noteworthyResults.map { it.directory }.forEach(::println)
+        noteworthyResults.map(DirectoryResult::directory).forEach(::println)
         println(noteworthyResults.size)
     }
     println(MillisecondsFormat.format(timeTaken))
