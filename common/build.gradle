@@ -1,6 +1,6 @@
-apply plugin: 'kotlin-platform-common'
+apply plugin: "kotlin-platform-common"
 
-archivesBaseName = 'kotlin-tryme-common'
+archivesBaseName = "common"
 
 dependencies {
     compile libraries.kotlin_stdlib_common
@@ -9,7 +9,7 @@ dependencies {
 }
 
 task sourcesJar(type: Jar) {
-    classifier = 'sources'
+    classifier = "sources"
     from sourceSets.main.kotlin
 }
 

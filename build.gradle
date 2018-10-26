@@ -1,15 +1,15 @@
 allprojects {
-    group 'com.javathinker.research'
-    version '1-SNAPSHOT'
+    group "com.seanshubin.kotlin.tryme"
+    version "1.0.0-SNAPSHOT"
 }
 
 wrapper {
-  gradleVersion = '4.9'
+  gradleVersion = "4.10.2"
   distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
 buildscript {
-    ext.kotlinVersion = '1.2.71'
+    ext.kotlinVersion = "1.2.71"
 
     repositories {
         jcenter()
@@ -18,14 +18,14 @@ buildscript {
     }
     dependencies {
         classpath "com.eriwen:gradle-js-plugin:2.14.1"
-        classpath 'com.moowork.gradle:gradle-node-plugin:1.2.0'
+        classpath "com.moowork.gradle:gradle-node-plugin:1.2.0"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
     }
 }
 
 ext {
-    nodeVersion = '8.11.3'
-    qunitVersion = '2.6.1'
+    nodeVersion = "8.11.3"
+    qunitVersion = "2.6.1"
     libraries = [
             junit: "junit:junit:4.12",
             kotlin_stdlib: "org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion",
@@ -36,7 +36,6 @@ ext {
             kotlin_test_js: "org.jetbrains.kotlin:kotlin-test-js:$kotlinVersion",
             kotlin_test_junit: "org.jetbrains.kotlin:kotlin-test-junit:$kotlinVersion",
             kotlin_coroutines_core: "org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2",
-            khttp: 'com.github.jkcclemens:khttp:0.1.0'
     ]
 }
 
