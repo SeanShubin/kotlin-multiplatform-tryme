@@ -1,77 +1,55 @@
 package com.seanshubin.tryme.jvm.caclulator
 
-fun addOp(s: Cursor<Char>): Cursor<Char> {
-    return if (s.valueIs('+') || s.valueIs('-')) s.next()
-    else s
-}
+data class Calculator(val cursor: Cursor<Char>) {
+    fun next(): Calculator = Calculator(cursor.next())
+    fun valueIs(value: Char): Boolean = cursor.valueIs(value)
+    fun isWord(): Boolean = cursor.valueIs(StringCursor.word)
+    fun isNumber(): Boolean = cursor.valueIs(StringCursor.number)
 
-fun multOp(s: Cursor<Char>): Cursor<Char> {
-    return if (s.valueIs('*') || s.valueIs('/')) s.next()
-    else s
-}
-
-
-fun factorTail(s: Cursor<Char>): Cursor<Char> {
-    return if (s.valueIs('*') || s.valueIs('/')) {
-        val a = multOp(s)
-        val b = factor(a)
-        val c = factorTail(b)
-        c
-    } else {
-        s
+    fun addOp(): Calculator {
+        return if (valueIs('+') || valueIs('-')) next()
+        else this
     }
-}
 
-fun factor(s: Cursor<Char>): Cursor<Char> {
-    if (s.valueIs('(')) {
-        val a = s.next()
-        val b = expr(a)
-        if (b.valueIs(')'))
-            return b.next()
+    fun multOp(): Calculator {
+        return if (valueIs('*') || valueIs('/')) next()
+        else this
+    }
+
+
+    fun factorTail(): Calculator {
+        return if (valueIs('*') || valueIs('/')) {
+            return multOp().factor().factorTail()
+        } else {
+            this
+        }
+    }
+
+    fun factor(): Calculator {
+        if (valueIs('(')) {
+            if (next().expr().valueIs(')'))
+                return next()
+            else
+                throw RuntimeException("closing ')' expected")
+        } else if (valueIs('-')) {
+            return next().factor()
+        } else if (isWord())
+            return next();
+        else if (isNumber())
+            return next()
         else
-            throw RuntimeException("closing ')' expected")
-    } else if (s.valueIs('-')) {
-        val a = s.next();
-        return factor(a)
-    } else if (s.valueIs(StringCursor.word))
-        return s.next()
-    else if (s.valueIs(StringCursor.number))
-        return s.next()
-    else
-        throw RuntimeException("factor expected")
-}
-
-fun termTail(s: Cursor<Char>): Cursor<Char> {
-    return if (s.valueIs('+') || s.valueIs('-')) {
-        val a = addOp(s)
-        val b = term(a)
-        val c = termTail(b)
-        c
-    } else {
-        s
+            throw RuntimeException("factor expected")
     }
-}
 
-fun term(s: Cursor<Char>): Cursor<Char> {
-    val a = factor(s)
-    val b = factorTail(a)
-    return b
-}
+    fun termTail(): Calculator {
+        return if (valueIs('+') || valueIs('-')) {
+            addOp().term().termTail()
+        } else {
+            this
+        }
+    }
 
-fun expr(s: Cursor<Char>): Cursor<Char> {
-    val a = term(s)
-    val b = termTail(a)
-    return b
-}
+    fun term(): Calculator = factor().factorTail()
 
-fun calculate(s: Cursor<Char>): Cursor<Char> {
-    return expr(s)
-}
-
-fun calculate(s: String): Cursor<Char> {
-    return calculate(StringCursor(s))
-}
-
-fun main(args: Array<String>) {
-    println(calculate("1+2+3"))
+    fun expr(): Calculator = term().termTail()
 }
