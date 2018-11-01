@@ -7,7 +7,5 @@ pluginManagement {
         }
     }
 }
-rootProject.name = 'kotlin3-tryme'
-
-
+rootProject.name = 'kotlin-tryme'
 enableFeaturePreview('GRADLE_METADATA')
