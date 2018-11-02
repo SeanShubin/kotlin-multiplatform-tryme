@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.process
 
-import com.seanshubin.kotlin.tryme.common.MillisecondsFormat
+import com.seanshubin.kotlin.tryme.common.format.MillisecondsFormat
 import com.seanshubin.kotlin.tryme.jvm.timer
 import java.nio.file.Files
 import java.nio.file.Path

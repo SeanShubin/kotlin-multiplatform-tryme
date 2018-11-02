@@ -2,31 +2,36 @@
 
 ## Sean's favorite features
 - statically typed
-- language very well documented
+- un-opinionated regarding oo vs. functional
+- [very well documented](https://kotlinlang.org/docs/reference/)
 - great ide support
-- common modules (multiplatform projects)
-- null safety
-- smart casts
+- [multiplatform support](https://kotlinlang.org/docs/reference/multiplatform.html)
+    - common modules can be reused across platforms
+- [null safety](https://kotlinlang.org/docs/reference/null-safety.html)
+- [smart casts](https://kotlinlang.org/docs/reference/typecasts.html)
 - [extension functions](https://kotlinlang.org/docs/reference/extensions.html)
-- data classes
-- [function literals with receiver](https://kotlinlang.org/docs/reference/type-safe-builders.html)
+- [operators](https://kotlinlang.org/docs/reference/operator-overloading.html)
+- [uniform access principle](https://kotlinlang.org/docs/reference/properties.html)
+- [function literals with receiver](src/commonTest/kotlin/com/seanshubin/kotlin/tryme/common/language/LanguageSamplesTest.kt)
     - [type safe builders](https://kotlinlang.org/docs/reference/type-safe-builders.html)
-- un-opinionated regarding functional and oo 
 - coroutines
-- takes from java
-    - enumerated types
+    - suspend functions are analogous to async/await
+    - suspend functions are only allowed to be called from a coroutine or another suspend function
+    - [SyncPrimes](com/seanshubin/kotlin/tryme/jvm/async/SyncPrimes.kt) vs. [AsyncPrimes](com/seanshubin/kotlin/tryme/jvm/async/AsyncPrimes.kt)
+    - [light weight](https://kotlinlang.org/docs/reference/coroutines/basics.html#coroutines-are-light-weight)
+- from java
+    - [enumerated types](https://kotlinlang.org/docs/reference/enum-classes.html)
     - uses regular java collections
-- takes from scala
-    - data classes
-    - companion objects
-    - primary constructor
-- can destructure data classes as if they were a tuple
+- from scala
+    - [data classes](https://kotlinlang.org/docs/reference/data-classes.html)
+    - [primary constructor](https://kotlinlang.org/docs/reference/classes.html#constructors)
+    - [companion objects](https://kotlinlang.org/docs/reference/object-declarations.html#companion-objects)
+- [can destructure data classes as if they were a tuple](src/commonTest/kotlin/com/seanshubin/kotlin/tryme/common/language/LanguageSamplesTest.kt)
 - operator overloading
     - uses predefined names
     - can't make your own
     - explicit "operator" keyword
 - delegation
-
-## What to watch out for
-- Poor documentation for experimental features, it took me way too long to figure out how to get a simple "hello world" multiplatform project working
-- While scala uses its own immutable collections, kotlin uses immutable views around mutable collections
+- gotchas
+    - [escaping a '$'](src/commonTest/kotlin/com/seanshubin/kotlin/tryme/common/language/LanguageSamplesTest.kt)
+    - [a little too good at Java interop](src/jvmTest/kotlin/com/seanshubin/kotlin/tryme/jvm/language/CollectionsTest.kt)

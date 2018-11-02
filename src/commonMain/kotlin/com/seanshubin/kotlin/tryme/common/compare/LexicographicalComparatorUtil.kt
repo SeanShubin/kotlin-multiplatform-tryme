@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common
+package com.seanshubin.kotlin.tryme.common.compare
 
 object LexicographicalComparatorUtil {
     interface StateMachine {

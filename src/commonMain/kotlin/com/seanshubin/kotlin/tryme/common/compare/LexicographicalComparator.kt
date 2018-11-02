@@ -1,7 +1,7 @@
-package com.seanshubin.kotlin.tryme.common
+package com.seanshubin.kotlin.tryme.common.compare
 
-import com.seanshubin.kotlin.tryme.common.LexicographicalComparatorUtil.splitNumbers
-import com.seanshubin.kotlin.tryme.common.LexicographicalComparatorUtil.isDigit
+import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparatorUtil.splitNumbers
+import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparatorUtil.isDigit
 
 object LexicographicalComparator : Comparator<String> {
     override fun compare(a: String, b: String): Int =

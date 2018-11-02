@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.datomic
 
-import com.seanshubin.kotlin.tryme.common.LexicographicalComparator
+import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparator
 import khttp.get
 
 fun main(args: Array<out String>) {

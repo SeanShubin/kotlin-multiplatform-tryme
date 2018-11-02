@@ -1,6 +1,6 @@
-package com.seanshubin.kotlin.tryme.common
+package com.seanshubin.kotlin.tryme.common.compare
 
-import com.seanshubin.kotlin.tryme.common.LexicographicalComparatorUtil.splitNumbers
+import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparatorUtil.splitNumbers
 import kotlin.test.Test
 import kotlin.test.assertEquals
 

@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.async
 
-import com.seanshubin.kotlin.tryme.common.MillisecondsFormat
+import com.seanshubin.kotlin.tryme.common.format.MillisecondsFormat
 import com.seanshubin.kotlin.tryme.jvm.timer
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,5 +22,5 @@ fun main(args: Array<String>) {
         }
     }
     val formattedTime = MillisecondsFormat.format(time)
-    println(formattedTime)
+    println(formattedTime) //4 seconds 659 milliseconds
 }

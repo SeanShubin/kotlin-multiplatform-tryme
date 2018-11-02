@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common
+package com.seanshubin.kotlin.tryme.common.format
 
 object MillisecondsFormat {
     private data class Scale(val quantity: Long, val name: String)

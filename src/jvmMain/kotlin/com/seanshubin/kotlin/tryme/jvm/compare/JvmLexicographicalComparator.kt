@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.compare
 
-import com.seanshubin.kotlin.tryme.common.LexicographicalComparator
+import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparator
 
 object JvmLexicographicalComparator : Comparator<String> {
     override fun compare(left: String?, right: String?): Int {

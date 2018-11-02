@@ -23,6 +23,7 @@ kotlin {
         commonMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2-eap13'
             }
         }
         commonTest {

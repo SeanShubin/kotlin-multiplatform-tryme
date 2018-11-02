@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common
+package com.seanshubin.kotlin.tryme.common.format
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
