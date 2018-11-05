@@ -70,15 +70,42 @@ class LanguageSamplesTest {
 
     @Test
     fun destructureClass() {
-        class Point(val x: Int, val y: Int){
-            operator fun component1():Int = x
-            operator fun component2():Int = y
+        class Point(val x: Int, val y: Int) {
+            operator fun component1(): Int = x
+            operator fun component2(): Int = y
         }
 
         val p = Point(1, 2)
         val (x, y) = p
         assertEquals(1, x)
         assertEquals(2, y)
+    }
+
+    @Test
+    fun notQuitePatternMatch() {
+        data class Coordinate(val x: Int, val y: Int)
+
+        val baseline = Coordinate(1, 2)
+        val sameAsBaseline = Coordinate(1, 2)
+        val xDifferent = Coordinate(3, 2)
+        val yDifferent = Coordinate(1, 4)
+        val yDifferentCopy = yDifferent.copy(x = 5)
+
+        fun describeCoordinate(coordinate: Coordinate): String {
+            val (x, y) = coordinate
+            return when {
+                coordinate == Coordinate(1, 2) -> "looks like baseline"
+                x == 1 -> "starts with 1"
+                y == 2 -> "ends with 2, x is $x"
+                else -> "another coordinate: values: x = $x, y = $y"
+            }
+        }
+
+        assertEquals(describeCoordinate(baseline), "looks like baseline")
+        assertEquals(describeCoordinate(sameAsBaseline), "looks like baseline")
+        assertEquals(describeCoordinate(xDifferent), "ends with 2, x is 3")
+        assertEquals(describeCoordinate(yDifferent), "starts with 1")
+        assertEquals(describeCoordinate(yDifferentCopy), "another coordinate: values: x = 5, y = 4")
     }
 }
 
