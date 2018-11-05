@@ -82,6 +82,55 @@ class LanguageSamplesTest {
     }
 
     @Test
+    fun operator(){
+        data class Point(val x:Int, val y:Int){
+            operator fun plus(that:Point) = Point(this.x + that.x, this.y + that.y)
+        }
+        val a = Point(1,2)
+        val b = Point(3,4)
+        val c = a + b
+        assertEquals(Point(4,6), c)
+    }
+
+    @Test
+    fun getterSetter(){
+        class Foo(initialValue:Int, val accessHistory:MutableList<String> = mutableListOf()){
+            private var currentValue:Int = initialValue
+            val readOnly:Int get(){
+                accessHistory.add("readOnly $currentValue")
+                return currentValue
+            }
+            var readWrite:Int
+                get(){
+                    accessHistory.add("readWrite (get) $currentValue")
+                    return currentValue
+                }
+                set(newValue:Int){
+                    accessHistory.add("readWrite (set) $currentValue -> $newValue")
+                    currentValue = newValue
+                }
+        }
+        val foo = Foo(123)
+        val a = foo.readOnly
+        val b = foo.readWrite
+        foo.readWrite = 456
+        val c = foo.readOnly
+        val d = foo.readWrite
+
+        assertEquals(123, a)
+        assertEquals(123, b)
+        assertEquals(456, c)
+        assertEquals(456, d)
+        val expectedAccessHistory = listOf(
+            "readOnly 123",
+            "readWrite (get) 123",
+            "readWrite (set) 123 -> 456",
+            "readOnly 456",
+            "readWrite (get) 456")
+        assertEquals(expectedAccessHistory, foo.accessHistory)
+    }
+
+    @Test
     fun notQuitePatternMatch() {
         data class Coordinate(val x: Int, val y: Int)
 
@@ -108,8 +157,3 @@ class LanguageSamplesTest {
         assertEquals(describeCoordinate(yDifferentCopy), "another coordinate: values: x = 5, y = 4")
     }
 }
-
-/*
-getter/setter
-operator
- */
