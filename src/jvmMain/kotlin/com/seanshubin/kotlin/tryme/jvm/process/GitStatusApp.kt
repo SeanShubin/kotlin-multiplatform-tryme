@@ -71,7 +71,9 @@ object AcceptDirectory : Predicate<Path> {
 }
 
 fun getDirectories(basePath: Path): List<Path> {
-    return Files.list(basePath).filter(AcceptDirectory).collect(Collectors.toList())
+    val ignore = listOf<String>()
+    val notIgnored = {path:Path -> !ignore.contains(path.fileName.toString()) }
+    return Files.list(basePath).filter(AcceptDirectory).filter(notIgnored).collect(Collectors.toList())
 }
 
 fun getCommands(): List<Command> = listOf(GitFetch, GitStatus, GitLocalChanges, GitUnmergedChanges)
@@ -87,7 +89,7 @@ fun runCommandsInDirectory(processRunner: ProcessRunner, commands: List<Command>
 }
 
 fun runCommandsInDirectories(processRunner: ProcessRunner, commands: List<Command>, directories: List<Path>): List<DirectoryResult> {
-    return directories.mapAsyncCachedThreadPool { directory ->
+    return directories.mapAsyncFixedThreadPool(4) { directory ->
         runCommandsInDirectory(processRunner, commands, directory)
     }
 }
