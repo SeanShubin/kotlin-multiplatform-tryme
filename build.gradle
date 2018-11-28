@@ -19,11 +19,12 @@ kotlin {
         // For MacOS, preset should be changed to e.g. presets.macosX64
         fromPreset(presets.macosX64, 'macos')
     }
+    
     sourceSets {
         commonMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-common'
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2-eap13'
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
             }
         }
         commonTest {
@@ -35,7 +36,7 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk8'
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:0.30.2-eap13'
+                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
                 implementation 'khttp:khttp:0.1.0'
             }
         }
