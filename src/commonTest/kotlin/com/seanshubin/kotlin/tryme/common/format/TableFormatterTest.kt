@@ -1,8 +1,8 @@
 package com.seanshubin.kotlin.tryme.common.format
 
 import com.seanshubin.kotlin.tryme.common.compare.ListDifference
-import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Justify.Left
-import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Justify.Right
+import com.seanshubin.kotlin.tryme.common.format.TableFormatter.Justify.Left
+import com.seanshubin.kotlin.tryme.common.format.TableFormatter.Justify.Right
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -99,15 +99,13 @@ class TableFormatterTest {
     @Test
     fun leftAndRightJustifySomethingFar() {
         val tableFormatter = TableFormatter.boxDrawing
-        assertLinesEqual(tableFormatter.createTable(listOf(listOf("a"))), listOf("╔═╗", "║a║", "╚═╝"))
-        assertLinesEqual(
-            tableFormatter.createTable(listOf(listOf(Left("a")))),
-            listOf("╔═╗", "║a║", "╚═╝")
-        )
-        assertLinesEqual(
-            tableFormatter.createTable(listOf(listOf(Right("a")))),
-            listOf("╔═╗", "║a║", "╚═╝")
-        )
+        val expected = listOf("╔═╗", "║a║", "╚═╝")
+        val actualNoJustify = tableFormatter.createTable(listOf(listOf("a")))
+        val actualJustifyLeft = tableFormatter.createTable(listOf(listOf(Left("a"))))
+        val actualJustifyRight = tableFormatter.createTable(listOf(listOf(Right("a"))))
+        assertLinesEqual(actualNoJustify, expected)
+        assertLinesEqual(actualJustifyLeft, expected)
+        assertLinesEqual(actualJustifyRight, expected)
     }
 
     @Test
@@ -138,6 +136,32 @@ class TableFormatterTest {
             "╟─────┼─────┼─────╢",
             "║Peggy│Trent│Wendy║",
             "╚═════╧═════╧═════╝"
+        )
+        val actual = tableFormat.createTable(input)
+        assertLinesEqual(expected, actual)
+    }
+
+    @Test
+    fun escapeCells() {
+        val tableFormat = TableFormatter.boxDrawing.copy(cellToString = TableFormatter.defaultCellToString)
+        val input = listOf(listOf("foo\nbar"))
+        val expected = listOf(
+            """╔════════╗""",
+            """║foo\nbar║""",
+            """╚════════╝"""
+        )
+        val actual = tableFormat.createTable(input)
+        assertLinesEqual(expected, actual)
+    }
+
+    @Test
+    fun truncateCells() {
+        val tableFormat = TableFormatter.boxDrawing.copy(cellToString = TableFormatter.truncateEscapedCell(10))
+        val input = listOf(listOf("a".repeat(100)))
+        val expected = listOf(
+            "╔═════════════════════════════════════════════╗",
+            "║<100 characters, showing first 10> aaaaaaaaaa║",
+            "╚═════════════════════════════════════════════╝"
         )
         val actual = tableFormat.createTable(input)
         assertLinesEqual(expected, actual)

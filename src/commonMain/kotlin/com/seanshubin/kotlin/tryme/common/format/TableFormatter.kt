@@ -1,14 +1,24 @@
 package com.seanshubin.kotlin.tryme.common.format
 
 import com.seanshubin.kotlin.tryme.common.format.ListUtil.transpose
+import com.seanshubin.kotlin.tryme.common.format.StringUtil.escape
+import com.seanshubin.kotlin.tryme.common.format.StringUtil.truncate
+import com.seanshubin.kotlin.tryme.common.format.TableFormatter.Justify.Left
+import com.seanshubin.kotlin.tryme.common.format.TableFormatter.Justify.Right
 
-class TableFormatter(
-    private val cellFormatter: CellFormatter,
+data class TableFormatter(
+    private val cellToString: (Any?) -> String,
     private val content: RowStyle,
     private val top: RowStyle? = null,
     private val bottom: RowStyle? = null,
     private val separator: RowStyle? = null
 ) {
+    interface Justify {
+        data class Left(val x: Any?) : Justify
+
+        data class Right(val x: Any?) : Justify
+    }
+
     fun createTable(originalRows: List<List<Any?>>): List<String> {
         val paddedRows = makeAllRowsTheSameSize(originalRows, "")
         val columns = paddedRows.transpose()
@@ -43,7 +53,7 @@ class TableFormatter(
 
     private fun formatRows(columnWidths: List<Int>, rows: List<List<Any?>>): List<String> =
         rows.map { row ->
-            content.format(columnWidths, row, cellFormatter::formatCell)
+            content.format(columnWidths, row, ::formatCell)
         }
 
     private fun <T> interleave(data: List<T>, separator: T): List<T> {
@@ -63,13 +73,51 @@ class TableFormatter(
         return column.map { cell -> cellWidth(cell) }.max() ?: 0
     }
 
-    private fun cellWidth(cell: Any?): Int {
-        return cellFormatter.cellToString(cell).length
+    private fun cellWidth(cell: Any?): Int = justifiedCellToString(cell).length
+
+    private fun formatCell(cell: Any?, width: Int, padding: String): String =
+        when (cell) {
+            is Justify.Left -> leftJustify(justifiedCellToString(cell.x), width, padding)
+            is Justify.Right -> rightJustify(justifiedCellToString(cell.x), width, padding)
+            null -> rightJustify(justifiedCellToString(cell), width, padding)
+            is String -> leftJustify(justifiedCellToString(cell), width, padding)
+            else -> rightJustify(justifiedCellToString(cell), width, padding)
+        }
+
+    private fun rightJustify(s: String, width: Int, padding: String = " "): String {
+        return paddingFor(s, width, padding) + s
     }
 
+    private fun leftJustify(s: String, width: Int, padding: String = " "): String {
+        return s + paddingFor(s, width, padding)
+    }
+
+    private fun paddingFor(s: String, width: Int, padding: String): String {
+        val quantity = width - s.length
+        return padding.repeat(quantity)
+    }
+
+    private fun justifiedCellToString(cell: Any?): String =
+        when (cell) {
+            is Left -> justifiedCellToString(cell.x)
+            is Right -> justifiedCellToString(cell.x)
+            else -> cellToString(cell)
+        }
+
     companion object {
+        val defaultCellToString: (Any?) -> String = { cell ->
+            when (cell) {
+                null -> "null"
+                else -> cell.toString().escape()
+            }
+        }
+
+        fun truncateEscapedCell(max: Int): (Any?) -> String = { cell ->
+            defaultCellToString(cell).truncate(max)
+        }
+
         val boxDrawing = TableFormatter(
-            cellFormatter = CellFormatter.default,
+            cellToString = defaultCellToString,
             content = RowStyle(
                 left = "║",
                 middle = " ",
@@ -96,7 +144,7 @@ class TableFormatter(
             )
         )
         val plainText = TableFormatter(
-            cellFormatter = CellFormatter.default,
+            cellToString = defaultCellToString,
             content = RowStyle(
                 left = "|",
                 middle = " ",
@@ -123,7 +171,7 @@ class TableFormatter(
             )
         )
         val minimal = TableFormatter(
-            cellFormatter = CellFormatter.default,
+            cellToString = defaultCellToString,
             content = RowStyle(
                 left = "",
                 middle = " ",
