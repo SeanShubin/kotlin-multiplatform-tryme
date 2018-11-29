@@ -2,10 +2,12 @@ package com.seanshubin.kotlin.tryme.common.format
 
 import com.seanshubin.kotlin.tryme.common.format.ListUtil.transpose
 
-class TableFormatter(val top: RowStyle,
-                     val middle: RowStyle,
-                     val bottom: RowStyle,
-                     val separator: RowStyle?) {
+class TableFormatter(
+    val top: RowStyle,
+    val middle: RowStyle,
+    val bottom: RowStyle,
+    val separator: RowStyle?
+) {
 
     interface Justify
 
@@ -88,6 +90,7 @@ class TableFormatter(val top: RowStyle,
             else -> cell.toString()
         }
     }
+
     companion object {
         val boxDrawing = TableFormatter(
             top = RowStyle(

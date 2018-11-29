@@ -5,7 +5,7 @@ import kotlin.test.assertEquals
 
 class CharPredicatesTest {
     @Test
-    fun checkIfNumber(){
+    fun checkIfNumber() {
         assertEquals(true, CharPredicates.isNumberChar('0'))
         assertEquals(true, CharPredicates.isNumberChar('5'))
         assertEquals(true, CharPredicates.isNumberChar('9'))
@@ -15,7 +15,7 @@ class CharPredicatesTest {
     }
 
     @Test
-    fun checkIfWord(){
+    fun checkIfWord() {
         assertEquals(false, CharPredicates.isWordChar('0'))
         assertEquals(false, CharPredicates.isWordChar('_'))
         assertEquals(false, CharPredicates.isWordChar('9'))

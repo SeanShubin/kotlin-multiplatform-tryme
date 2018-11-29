@@ -4,7 +4,6 @@ import com.seanshubin.kotlin.tryme.common.compare.ListDifference
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter.LeftJustify
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter.RightJustify
 import kotlin.test.Test
-import kotlin.test.assertEquals
 import kotlin.test.assertTrue
 
 class TableFormatterTest {

@@ -1,8 +1,10 @@
 package com.seanshubin.kotlin.tryme.jvm.process
 
-data class ProcessOutput(val exitCode: Int,
-                         val outputLines: List<String>,
-                         val errorLines: List<String>) {
+data class ProcessOutput(
+    val exitCode: Int,
+    val outputLines: List<String>,
+    val errorLines: List<String>
+) {
     fun toMultipleLineString(): List<String> = listOf("ProcessOutput") + compose().indent()
 
     private fun compose(): List<String> = composeExitCode() + composeOutputLines() + composeErrorLines()

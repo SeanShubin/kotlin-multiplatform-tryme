@@ -1,17 +1,17 @@
 package com.seanshubin.kotlin.tryme.common.compare
 
 object ListDifference {
-    fun <T> compare(first:List<T>, second:List<T>):Difference = compare("a", first, "b", second)
+    fun <T> compare(first: List<T>, second: List<T>): Difference = compare("a", first, "b", second)
 
-    fun <T> compare(aCaption:String, a:List<T>, bCaption:String, b:List<T>):Difference{
+    fun <T> compare(aCaption: String, a: List<T>, bCaption: String, b: List<T>): Difference {
         var index = 0
         val messageLines = mutableListOf<String>()
         var done = false
         var isSame = true
-        while(!done){
-            val p =Pair(index < a.size, index < b.size)
-            when(p){
-                Pair(false, false)-> {
+        while (!done) {
+            val p = Pair(index < a.size, index < b.size)
+            when (p) {
+                Pair(false, false) -> {
                     done = true
                 }
                 Pair(false, true) -> {
@@ -26,10 +26,10 @@ object ListDifference {
                     done = true
                     isSame = false
                 }
-                Pair(true, true) ->{
-                    if(a[index] == b[index]){
+                Pair(true, true) -> {
+                    if (a[index] == b[index]) {
                         messageLines.add("same[$index]: ${a[index]}")
-                        index ++
+                        index++
                     } else {
                         messageLines.add("different-$aCaption[$index]: ${a[index]}")
                         messageLines.add("different-$bCaption[$index]: ${b[index]}")
@@ -39,10 +39,10 @@ object ListDifference {
                 }
             }
         }
-        val firstLine = if(isSame) "no differences" else "different at index $index"
-        val lastLines = if(isSame) listOf() else listOf("remaining elements skipped")
+        val firstLine = if (isSame) "no differences" else "different at index $index"
+        val lastLines = if (isSame) listOf() else listOf("remaining elements skipped")
         return Difference(isSame, listOf(firstLine) + messageLines + lastLines)
     }
 
-    data class Difference(val isSame:Boolean, val messageLines:List<String>)
+    data class Difference(val isSame: Boolean, val messageLines: List<String>)
 }

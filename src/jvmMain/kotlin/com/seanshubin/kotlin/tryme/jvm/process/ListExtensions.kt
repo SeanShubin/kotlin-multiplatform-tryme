@@ -30,9 +30,9 @@ fun <T, U> List<T>.mapAsyncCreateExecutorService(createExecutorService: () -> Ex
 }
 
 fun <T, U> List<T>.mapAsyncCachedThreadPool(f: (T) -> U): List<U> =
-        this.mapAsyncCreateExecutorService({ Executors.newCachedThreadPool() }, f)
+    this.mapAsyncCreateExecutorService({ Executors.newCachedThreadPool() }, f)
 
 fun <T, U> List<T>.mapAsyncFixedThreadPool(numberOfThreads: Int, f: (T) -> U): List<U> =
-        this.mapAsyncCreateExecutorService({ Executors.newFixedThreadPool(numberOfThreads) }, f)
+    this.mapAsyncCreateExecutorService({ Executors.newFixedThreadPool(numberOfThreads) }, f)
 
 fun List<String>.indent(prefix: String = "  "): List<String> = this.map { "$prefix$it" }

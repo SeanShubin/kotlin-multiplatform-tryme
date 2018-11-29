@@ -20,7 +20,8 @@ class CommandResult(val isSuccessful: Boolean, val input: ProcessInput, val outp
 }
 
 fun expectZeroExitCode(input: ProcessInput, output: ProcessOutput) = CommandResult(output.exitCode == 0, input, output)
-fun expectNoOutputLines(input: ProcessInput, output: ProcessOutput) = CommandResult(output.exitCode == 0 && output.outputLines.isEmpty(), input, output)
+fun expectNoOutputLines(input: ProcessInput, output: ProcessOutput) =
+    CommandResult(output.exitCode == 0 && output.outputLines.isEmpty(), input, output)
 
 object GitFetch : Command {
     override fun runInDirectory(processRunner: ProcessRunner, directory: Path): CommandResult {
@@ -58,7 +59,8 @@ class DirectoryResult(val directory: Path, val commandResults: List<CommandResul
     fun toMultipleLineString(): List<String> = listOf("DirectoryResult") + compose().indent()
     fun hasUnsuccessfulCommand(): Boolean = commandResults.any { !it.isSuccessful }
     private fun compose(): List<String> = listOf("directory = $directory") + composeCommandResults()
-    private fun composeCommandResults(): List<String> = listOf("commandResults") + commandResults.flatMap { it.toMultipleLineString() }.indent()
+    private fun composeCommandResults(): List<String> =
+        listOf("commandResults") + commandResults.flatMap { it.toMultipleLineString() }.indent()
 }
 
 object AcceptDirectory : Predicate<Path> {
@@ -72,13 +74,13 @@ object AcceptDirectory : Predicate<Path> {
 
 fun getDirectories(basePath: Path): List<Path> {
     val ignore = listOf<String>()
-    val notIgnored = {path:Path -> !ignore.contains(path.fileName.toString()) }
+    val notIgnored = { path: Path -> !ignore.contains(path.fileName.toString()) }
     return Files.list(basePath).filter(AcceptDirectory).filter(notIgnored).collect(Collectors.toList())
 }
 
 fun getCommands(): List<Command> = listOf(GitFetch, GitStatus, GitLocalChanges, GitUnmergedChanges)
 fun runCommandInDirectory(processRunner: ProcessRunner, command: Command, directory: Path): CommandResult =
-        command.runInDirectory(processRunner, directory)
+    command.runInDirectory(processRunner, directory)
 
 fun runCommandsInDirectory(processRunner: ProcessRunner, commands: List<Command>, directory: Path): DirectoryResult {
     println("processing: $directory")
@@ -88,7 +90,11 @@ fun runCommandsInDirectory(processRunner: ProcessRunner, commands: List<Command>
     return directoryResult
 }
 
-fun runCommandsInDirectories(processRunner: ProcessRunner, commands: List<Command>, directories: List<Path>): List<DirectoryResult> {
+fun runCommandsInDirectories(
+    processRunner: ProcessRunner,
+    commands: List<Command>,
+    directories: List<Path>
+): List<DirectoryResult> {
     return directories.mapAsyncFixedThreadPool(4) { directory ->
         runCommandsInDirectory(processRunner, commands, directory)
     }

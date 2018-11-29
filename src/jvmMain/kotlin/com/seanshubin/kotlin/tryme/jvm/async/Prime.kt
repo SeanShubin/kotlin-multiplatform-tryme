@@ -14,7 +14,11 @@ object Prime {
             else -> nextPrime(listOf(TWO), THREE, index - TWO)
         }
 
-    private tailrec fun nextPrime(soFarSeq: List<BigInteger>, candidate: BigInteger, iterations: BigInteger): BigInteger {
+    private tailrec fun nextPrime(
+        soFarSeq: List<BigInteger>,
+        candidate: BigInteger,
+        iterations: BigInteger
+    ): BigInteger {
         fun isDivisible(soFar: BigInteger): Boolean = candidate.mod(soFar) == ZERO
 
         return if (soFarSeq.any(::isDivisible)) {

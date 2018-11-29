@@ -14,9 +14,11 @@ object VerboseNumberFormatter {
     private val THOUSAND: BigInteger = BigInteger.valueOf(1000)
     private val ONES = listOf(
         "Zero", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven", "Twelve",
-        "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen")
+        "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"
+    )
     private val TENS = listOf(
-        "Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety")
+        "Zero", "Ten", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"
+    )
     private val SCALE = listOf(
         "Thousand", "Million", "Billion", "Trillion", "Quadrillion", "Quintillion", "Sextillion", "Septillion",
         "Octillion", "Nonillion", "Decillion", "Undecillion", "Duodecillion", "Tredecillion", "Quattuordecillion",
@@ -24,7 +26,8 @@ object VerboseNumberFormatter {
         "Unvigintillion", "Duovigintillion", "Tresvigintillion", "Quattuorvigintillion", "Quinquavigintillion",
         "Sesvigintillion", "Septemvigintillion", "Octovigintillion", "Novemvigintillion", "Trigintillion",
         "Untrigintillion", "Duotrigintillion", "Trestrigintillion", "Quattuortrigintillion", "Quinquatrigintillion",
-        "Sestrigintillion", "Septentrigintillion", "Octotrigintillion", "Novemtrigintillion", "Quadragintillion")
+        "Sestrigintillion", "Septentrigintillion", "Octotrigintillion", "Novemtrigintillion", "Quadragintillion"
+    )
 
     private fun formatNumberToList(x: BigInteger): List<String> {
         when {
@@ -48,7 +51,8 @@ object VerboseNumberFormatter {
                 fun scaledNumber(scale: Int, number: BigInteger): List<String> {
                     val (big, small) = number divMod THOUSAND
                     val verboseBig = if (big == ZERO) emptyList() else scaledNumber(scale + 1, big)
-                    val verboseSmall = if (small == ZERO) emptyList() else formatNumberToList(small) + listOf(SCALE[scale])
+                    val verboseSmall =
+                        if (small == ZERO) emptyList() else formatNumberToList(small) + listOf(SCALE[scale])
                     return verboseBig + verboseSmall
                 }
                 val (thousands, ones) = x divMod THOUSAND
