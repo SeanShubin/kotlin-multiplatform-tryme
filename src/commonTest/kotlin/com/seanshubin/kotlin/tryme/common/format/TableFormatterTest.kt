@@ -8,7 +8,7 @@ import kotlin.test.assertEquals
 class TableFormatterTest {
     @Test
     fun fancyTable() {
-        val tableFormatter = TableFormatter(TableStyles.boxDrawing)
+        val tableFormatter = TableFormatter.boxDrawing
         val input = listOf(
             listOf("Alice", "Bob", "Carol"),
             listOf("Dave", "Eve", "Mallory"),
@@ -29,7 +29,7 @@ class TableFormatterTest {
 
     @Test
     fun plainTextTable() {
-        val tableFormatter = TableFormatter(TableStyles.plainText)
+        val tableFormatter = TableFormatter.plainText
         val input = listOf(
             listOf("Alice", "Bob", "Carol"),
             listOf("Dave", "Eve", "Mallory"),
@@ -50,7 +50,7 @@ class TableFormatterTest {
 
     @Test
     fun minimalTable() {
-        val tableFormatter = TableFormatter(TableStyles.minimal)
+        val tableFormatter = TableFormatter.minimal
         val input = listOf(
             listOf("Alice", "Bob", "Carol"),
             listOf("Dave", "Eve", "Mallory"),
@@ -67,7 +67,7 @@ class TableFormatterTest {
 
     @Test
     fun leftAndRightJustify() {
-        val tableFormatter = TableFormatter(TableStyles.boxDrawing)
+        val tableFormatter = TableFormatter.boxDrawing
         val input = listOf(
             listOf("left justify column name", "default justification column name", "right justify column name"),
             listOf(LeftJustify("left"), "default", RightJustify("right")),
@@ -97,7 +97,7 @@ class TableFormatterTest {
 
     @Test
     fun leftAndRightJustifySomethingFar() {
-        val tableFormatter = TableFormatter(TableStyles.boxDrawing)
+        val tableFormatter = TableFormatter.boxDrawing
         assertEquals(tableFormatter.createTable(listOf(listOf("a"))), listOf("╔═╗", "║a║", "╚═╝"))
         assertEquals(
             tableFormatter.createTable(listOf(listOf(LeftJustify("a")))),
@@ -111,19 +111,19 @@ class TableFormatterTest {
 
     @Test
     fun testNoColumns() {
-        val tableFormatter = TableFormatter(TableStyles.boxDrawing)
+        val tableFormatter = TableFormatter.boxDrawing
         assertEquals(tableFormatter.createTable(listOf(listOf())), listOf("╔╗", "║║", "╚╝"))
     }
 
     @Test
     fun testNoRows() {
-        val tableFormatter = TableFormatter(TableStyles.boxDrawing)
+        val tableFormatter = TableFormatter.boxDrawing
         assertEquals(tableFormatter.createTable(listOf()), listOf("╔╗", "╚╝"))
     }
 
     @Test
     fun replaceEmptyCellsWithBlankCells() {
-        val tableFormat = TableFormatter(TableStyles.boxDrawing)
+        val tableFormat = TableFormatter.boxDrawing
         val input = listOf(
             listOf("Alice", "Bob", "Carol"),
             listOf("Dave", "Eve"),

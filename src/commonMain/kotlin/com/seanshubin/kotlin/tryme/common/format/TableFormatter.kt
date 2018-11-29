@@ -2,7 +2,10 @@ package com.seanshubin.kotlin.tryme.common.format
 
 import com.seanshubin.kotlin.tryme.common.format.ListUtil.transpose
 
-class TableFormatter(private val style: TableStyle) {
+class TableFormatter(val top: RowStyle,
+                     val middle: RowStyle,
+                     val bottom: RowStyle,
+                     val separator: RowStyle?) {
 
     interface Justify
 
@@ -15,12 +18,12 @@ class TableFormatter(private val style: TableStyle) {
         val columns = paddedRows.transpose()
         val columnWidths = columns.map { a: List<Any?> -> maxWidthForColumn(a) }
         val formattedRows = formatRows(columnWidths, paddedRows)
-        return if (style.separator == null) {
+        return if (separator == null) {
             formattedRows
         } else {
-            val top = style.top.format(columnWidths)
-            val middle = style.separator.format(columnWidths)
-            val bottom = style.bottom.format(columnWidths)
+            val top = top.format(columnWidths)
+            val middle = separator.format(columnWidths)
+            val bottom = bottom.format(columnWidths)
             listOf(top) + interleave(formattedRows, middle) + listOf(bottom)
         }
     }
@@ -43,7 +46,7 @@ class TableFormatter(private val style: TableStyle) {
 
     private fun formatRows(columnWidths: List<Int>, rows: List<List<Any?>>): List<String> =
         rows.map { row ->
-            style.middle.format(columnWidths, row, ::formatCell)
+            middle.format(columnWidths, row, ::formatCell)
         }
 
     private fun formatCell(cell: Any?, width: Int, padding: String): String {
@@ -84,5 +87,81 @@ class TableFormatter(private val style: TableStyle) {
             is RightJustify -> cellToString(cell.x)
             else -> cell.toString()
         }
+    }
+    companion object {
+        val boxDrawing = TableFormatter(
+            top = RowStyle(
+                left = "╔",
+                middle = "═",
+                right = "╗",
+                separator = "╤"
+            ),
+            middle = RowStyle(
+                left = "║",
+                middle = " ",
+                right = "║",
+                separator = "│"
+            ),
+            bottom = RowStyle(
+                left = "╚",
+                middle = "═",
+                right = "╝",
+                separator = "╧"
+            ),
+            separator = RowStyle(
+                left = "╟",
+                middle = "─",
+                right = "╢",
+                separator = "┼"
+            )
+        )
+        val plainText = TableFormatter(
+            top = RowStyle(
+                left = "/",
+                middle = "-",
+                right = "\\",
+                separator = "+"
+            ),
+            middle = RowStyle(
+                left = "|",
+                middle = " ",
+                right = "|",
+                separator = "|"
+            ),
+            bottom = RowStyle(
+                left = "\\",
+                middle = "-",
+                right = "/",
+                separator = "+"
+            ),
+            separator = RowStyle(
+                left = "+",
+                middle = "-",
+                right = "+",
+                separator = "+"
+            )
+        )
+        val minimal = TableFormatter(
+            top = RowStyle(
+                left = "",
+                middle = "",
+                right = "",
+                separator = ""
+            ),
+            middle = RowStyle(
+                left = "",
+                middle = " ",
+                right = "",
+                separator = " "
+            ),
+            bottom = RowStyle(
+                left = "╚",
+                middle = "═",
+                right = "╝",
+                separator = "╧"
+            ),
+            separator = null
+        )
+
     }
 }
