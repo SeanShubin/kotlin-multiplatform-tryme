@@ -1,5 +1,8 @@
 package com.seanshubin.kotlin.tryme.common.format
 
+import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Companion.Justify.Companion.Left
+import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Companion.Justify.Companion.Right
+
 interface CellFormatter {
     fun formatCell(cell: Any?, width: Int, padding: String): String
     fun cellToString(cell: Any?): String
@@ -12,7 +15,6 @@ interface CellFormatter {
                 data class Right(val x: Any?) : Justify
             }
         }
-
 
         fun rightJustify(s: String, width: Int, padding: String = " "): String {
             return paddingFor(s, width, padding) + s
@@ -30,8 +32,8 @@ interface CellFormatter {
         val default = object : CellFormatter {
             override fun formatCell(cell: Any?, width: Int, padding: String): String =
                 when (cell) {
-                    is Justify.Companion.Left -> leftJustify(cellToString(cell.x), width, padding)
-                    is Justify.Companion.Right -> rightJustify(cellToString(cell.x), width, padding)
+                    is Left -> leftJustify(cellToString(cell.x), width, padding)
+                    is Right -> rightJustify(cellToString(cell.x), width, padding)
                     null -> rightJustify(cellToString(cell), width, padding)
                     is String -> leftJustify(cellToString(cell), width, padding)
                     else -> rightJustify(cellToString(cell), width, padding)
@@ -40,8 +42,8 @@ interface CellFormatter {
             override fun cellToString(cell: Any?): String {
                 return when (cell) {
                     null -> "null"
-                    is Justify.Companion.Left -> cellToString(cell.x)
-                    is Justify.Companion.Right -> cellToString(cell.x)
+                    is Left -> cellToString(cell.x)
+                    is Right -> cellToString(cell.x)
                     else -> cell.toString()
                 }
             }
