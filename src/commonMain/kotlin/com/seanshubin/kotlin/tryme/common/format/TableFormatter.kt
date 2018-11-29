@@ -2,37 +2,34 @@ package com.seanshubin.kotlin.tryme.common.format
 
 import com.seanshubin.kotlin.tryme.common.format.ListUtil.transpose
 
-class TableFormatter(val wantInterleave: Boolean,
-                     val rowLeft: String = "║",
-                     val rowCenter: String = "│",
-                     val rowRight: String = "║") {
+class TableFormatter(private val style: TableStyle) {
 
     interface Justify
 
-    data class LeftJustify(val x: Any) : Justify
+    data class LeftJustify(val x: Any?) : Justify
 
-    data class RightJustify(val x: Any) : Justify
+    data class RightJustify(val x: Any?) : Justify
 
-    fun createTable(originalRows: List<List<Any>>): List<String> {
+    fun createTable(originalRows: List<List<Any?>>): List<String> {
         val paddedRows = makeAllRowsTheSameSize(originalRows, "")
         val columns = paddedRows.transpose()
-        val columnWidths = columns.map { a: List<Any> -> maxWidthForColumn(a) }
+        val columnWidths = columns.map { a: List<Any?> -> maxWidthForColumn(a) }
         val formattedRows = formatRows(columnWidths, paddedRows)
-        return if (wantInterleave) {
-            val top = makeTop(columnWidths)
-            val middle = makeMiddle(columnWidths)
-            val bottom = makeBottom(columnWidths)
-            listOf(top) + interleave(formattedRows, middle) + listOf(bottom)
-        } else {
+        return if (style.separator == null) {
             formattedRows
+        } else {
+            val top = style.top.format(columnWidths)
+            val middle = style.separator.format(columnWidths)
+            val bottom = style.bottom.format(columnWidths)
+            listOf(top) + interleave(formattedRows, middle) + listOf(bottom)
         }
     }
 
-    private fun makeAllRowsTheSameSize(rows: List<List<Any>>, value: Any): List<List<Any>> {
+    private fun makeAllRowsTheSameSize(rows: List<List<Any?>>, value: Any): List<List<Any?>> {
         val rowSizes = rows.map { row -> row.size }
         val targetSize = rowSizes.max() ?: 0
 
-        fun makeRowSameSize(row: List<Any>): List<Any> {
+        fun makeRowSameSize(row: List<Any?>): List<Any?> {
             val extraCells = makeExtraCells(targetSize - row.size, value)
             return row + extraCells
         }
@@ -41,36 +38,13 @@ class TableFormatter(val wantInterleave: Boolean,
     }
 
     private fun makeExtraCells(howMany: Int, contents: Any): List<Any> {
-        return (1..howMany).map { _ -> contents }
+        return (1..howMany).map { contents }
     }
 
-    private fun emptyRow(size: Int): List<String> {
-        return generateSequence { "" }.take(size).toList()
-    }
-
-    private fun makeTop(columnWidths: List<Int>): String {
-        return makeRow(columnWidths, emptyRow(columnWidths.size), "═", "╔", "╤", "╗")
-    }
-
-    private fun makeMiddle(columnWidths: List<Int>): String {
-        return makeRow(columnWidths, emptyRow(columnWidths.size), "─", "╟", "┼", "╢")
-    }
-
-    private fun makeBottom(columnWidths: List<Int>): String {
-        return makeRow(columnWidths, emptyRow(columnWidths.size), "═", "╚", "╧", "╝")
-    }
-
-    private fun makeRow(columnWidths: List<Int>, data: List<Any>, padding: String, left: String, center: String, right: String): String {
-        val formattedCells = (columnWidths zip data).map { (width, cell) ->
-            formatCell(cell, width, padding)
+    private fun formatRows(columnWidths: List<Int>, rows: List<List<Any?>>): List<String> =
+        rows.map { row ->
+            style.middle.format(columnWidths, row, ::formatCell)
         }
-        return formattedCells.joinToString(center, left, right)
-    }
-
-    private fun formatRows(columnWidths: List<Int>, rows: List<List<Any>>): List<String> {
-        val formatRow: (List<Any>) -> String = { a -> makeRow(columnWidths, a, " ", rowLeft, rowCenter, rowRight) }
-        return rows.map { x -> formatRow(x) }
-    }
 
     private fun formatCell(cell: Any?, width: Int, padding: String): String {
         return when (cell) {
@@ -95,7 +69,7 @@ class TableFormatter(val wantInterleave: Boolean,
         }
     }
 
-    private fun maxWidthForColumn(column: List<Any>): Int {
+    private fun maxWidthForColumn(column: List<Any?>): Int {
         return column.map { cell -> cellWidth(cell) }.max() ?: 0
     }
 
