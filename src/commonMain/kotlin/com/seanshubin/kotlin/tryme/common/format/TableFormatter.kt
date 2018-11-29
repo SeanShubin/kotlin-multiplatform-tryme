@@ -3,10 +3,10 @@ package com.seanshubin.kotlin.tryme.common.format
 import com.seanshubin.kotlin.tryme.common.format.ListUtil.transpose
 
 class TableFormatter(
-    val top: RowStyle,
-    val middle: RowStyle,
-    val bottom: RowStyle,
-    val separator: RowStyle?
+    val content: RowStyle,
+    val top: RowStyle? = null,
+    val bottom: RowStyle? = null,
+    val separator: RowStyle? = null
 ) {
 
     interface Justify
@@ -20,14 +20,15 @@ class TableFormatter(
         val columns = paddedRows.transpose()
         val columnWidths = columns.map { a: List<Any?> -> maxWidthForColumn(a) }
         val formattedRows = formatRows(columnWidths, paddedRows)
-        return if (separator == null) {
+        val content = if (separator == null) {
             formattedRows
         } else {
-            val top = top.format(columnWidths)
-            val middle = separator.format(columnWidths)
-            val bottom = bottom.format(columnWidths)
-            listOf(top) + interleave(formattedRows, middle) + listOf(bottom)
+            val content = separator.format(columnWidths)
+            interleave(formattedRows, content)
         }
+        val top = if (top == null) listOf() else listOf(top.format(columnWidths))
+        val bottom = if (bottom == null) listOf() else listOf(bottom.format(columnWidths))
+        return top + content + bottom
     }
 
     private fun makeAllRowsTheSameSize(rows: List<List<Any?>>, value: Any): List<List<Any?>> {
@@ -48,7 +49,7 @@ class TableFormatter(
 
     private fun formatRows(columnWidths: List<Int>, rows: List<List<Any?>>): List<String> =
         rows.map { row ->
-            middle.format(columnWidths, row, ::formatCell)
+            content.format(columnWidths, row, ::formatCell)
         }
 
     private fun formatCell(cell: Any?, width: Int, padding: String): String {
@@ -93,17 +94,17 @@ class TableFormatter(
 
     companion object {
         val boxDrawing = TableFormatter(
+            content = RowStyle(
+                left = "║",
+                middle = " ",
+                right = "║",
+                separator = "│"
+            ),
             top = RowStyle(
                 left = "╔",
                 middle = "═",
                 right = "╗",
                 separator = "╤"
-            ),
-            middle = RowStyle(
-                left = "║",
-                middle = " ",
-                right = "║",
-                separator = "│"
             ),
             bottom = RowStyle(
                 left = "╚",
@@ -119,17 +120,17 @@ class TableFormatter(
             )
         )
         val plainText = TableFormatter(
+            content = RowStyle(
+                left = "|",
+                middle = " ",
+                right = "|",
+                separator = "|"
+            ),
             top = RowStyle(
                 left = "/",
                 middle = "-",
                 right = "\\",
                 separator = "+"
-            ),
-            middle = RowStyle(
-                left = "|",
-                middle = " ",
-                right = "|",
-                separator = "|"
             ),
             bottom = RowStyle(
                 left = "\\",
@@ -145,26 +146,15 @@ class TableFormatter(
             )
         )
         val minimal = TableFormatter(
-            top = RowStyle(
-                left = "",
-                middle = "",
-                right = "",
-                separator = ""
-            ),
-            middle = RowStyle(
+            content = RowStyle(
                 left = "",
                 middle = " ",
                 right = "",
                 separator = " "
             ),
-            bottom = RowStyle(
-                left = "╚",
-                middle = "═",
-                right = "╝",
-                separator = "╧"
-            ),
+            top = null,
+            bottom = null,
             separator = null
         )
-
     }
 }

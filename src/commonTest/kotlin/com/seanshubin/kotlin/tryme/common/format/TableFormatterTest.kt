@@ -63,6 +63,7 @@ class TableFormatterTest {
             "Peggy Trent Wendy  "
         )
         val actual = tableFormatter.createTable(input)
+        actual.forEach { println(it) }
         assertLinesEqual(expected, actual)
     }
 
