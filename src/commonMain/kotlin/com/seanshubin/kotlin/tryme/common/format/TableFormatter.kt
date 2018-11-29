@@ -3,18 +3,12 @@ package com.seanshubin.kotlin.tryme.common.format
 import com.seanshubin.kotlin.tryme.common.format.ListUtil.transpose
 
 class TableFormatter(
-    val content: RowStyle,
-    val top: RowStyle? = null,
-    val bottom: RowStyle? = null,
-    val separator: RowStyle? = null
+    private val cellFormatter: CellFormatter,
+    private val content: RowStyle,
+    private val top: RowStyle? = null,
+    private val bottom: RowStyle? = null,
+    private val separator: RowStyle? = null
 ) {
-
-    interface Justify
-
-    data class LeftJustify(val x: Any?) : Justify
-
-    data class RightJustify(val x: Any?) : Justify
-
     fun createTable(originalRows: List<List<Any?>>): List<String> {
         val paddedRows = makeAllRowsTheSameSize(originalRows, "")
         val columns = paddedRows.transpose()
@@ -49,18 +43,8 @@ class TableFormatter(
 
     private fun formatRows(columnWidths: List<Int>, rows: List<List<Any?>>): List<String> =
         rows.map { row ->
-            content.format(columnWidths, row, ::formatCell)
+            content.format(columnWidths, row, cellFormatter::formatCell)
         }
-
-    private fun formatCell(cell: Any?, width: Int, padding: String): String {
-        return when (cell) {
-            is LeftJustify -> JustifyUtil.leftJustify(cellToString(cell.x), width, padding)
-            is RightJustify -> JustifyUtil.rightJustify(cellToString(cell.x), width, padding)
-            null -> JustifyUtil.rightJustify(cellToString(cell), width, padding)
-            is String -> JustifyUtil.leftJustify(cellToString(cell), width, padding)
-            else -> JustifyUtil.rightJustify(cellToString(cell), width, padding)
-        }
-    }
 
     private fun <T> interleave(data: List<T>, separator: T): List<T> {
         fun combine(soFar: List<T>, next: T): List<T> {
@@ -80,20 +64,12 @@ class TableFormatter(
     }
 
     private fun cellWidth(cell: Any?): Int {
-        return cellToString(cell).length
-    }
-
-    private fun cellToString(cell: Any?): String {
-        return when (cell) {
-            null -> "null"
-            is LeftJustify -> cellToString(cell.x)
-            is RightJustify -> cellToString(cell.x)
-            else -> cell.toString()
-        }
+        return cellFormatter.cellToString(cell).length
     }
 
     companion object {
         val boxDrawing = TableFormatter(
+            cellFormatter = CellFormatter.default,
             content = RowStyle(
                 left = "║",
                 middle = " ",
@@ -120,6 +96,7 @@ class TableFormatter(
             )
         )
         val plainText = TableFormatter(
+            cellFormatter = CellFormatter.default,
             content = RowStyle(
                 left = "|",
                 middle = " ",
@@ -146,6 +123,7 @@ class TableFormatter(
             )
         )
         val minimal = TableFormatter(
+            cellFormatter = CellFormatter.default,
             content = RowStyle(
                 left = "",
                 middle = " ",
