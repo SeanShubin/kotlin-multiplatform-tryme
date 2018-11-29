@@ -1,8 +1,8 @@
 package com.seanshubin.kotlin.tryme.common.format
 
 import com.seanshubin.kotlin.tryme.common.compare.ListDifference
-import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Companion.Justify.Companion.Left
-import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Companion.Justify.Companion.Right
+import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Justify.Left
+import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Justify.Right
 import kotlin.test.Test
 import kotlin.test.assertTrue
 
@@ -63,7 +63,6 @@ class TableFormatterTest {
             "Peggy Trent Wendy  "
         )
         val actual = tableFormatter.createTable(input)
-        actual.forEach { println(it) }
         assertLinesEqual(expected, actual)
     }
 

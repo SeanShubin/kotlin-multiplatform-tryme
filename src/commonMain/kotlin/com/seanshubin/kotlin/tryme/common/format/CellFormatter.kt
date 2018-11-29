@@ -1,21 +1,19 @@
 package com.seanshubin.kotlin.tryme.common.format
 
-import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Companion.Justify.Companion.Left
-import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Companion.Justify.Companion.Right
+import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Justify.Left
+import com.seanshubin.kotlin.tryme.common.format.CellFormatter.Justify.Right
 
 interface CellFormatter {
     fun formatCell(cell: Any?, width: Int, padding: String): String
     fun cellToString(cell: Any?): String
 
+    interface Justify {
+        data class Left(val x: Any?) : Justify
+
+        data class Right(val x: Any?) : Justify
+    }
+
     companion object {
-        interface Justify {
-            companion object {
-                data class Left(val x: Any?) : Justify
-
-                data class Right(val x: Any?) : Justify
-            }
-        }
-
         fun rightJustify(s: String, width: Int, padding: String = " "): String {
             return paddingFor(s, width, padding) + s
         }

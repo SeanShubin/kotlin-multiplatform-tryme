@@ -12,7 +12,7 @@ data class Calculator(
     private fun next(): Calculator = copy(cursor = cursor.next())
     private fun numberNext(): Calculator {
         val number = cursor.value.toInt() - '0'.toInt()
-        val ast = Ast.Companion.Num(number)
+        val ast = Ast.Num(number)
         return copy(cursor = cursor.next(), stack = stack.push(ast))
     }
 
