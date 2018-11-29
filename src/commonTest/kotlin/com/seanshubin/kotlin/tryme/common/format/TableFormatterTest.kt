@@ -1,9 +1,11 @@
 package com.seanshubin.kotlin.tryme.common.format
 
+import com.seanshubin.kotlin.tryme.common.compare.ListDifference
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter.LeftJustify
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter.RightJustify
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertTrue
 
 class TableFormatterTest {
     @Test
@@ -24,7 +26,7 @@ class TableFormatterTest {
             "╚═════╧═════╧═══════╝"
         )
         val actual = tableFormatter.createTable(input)
-        assertEquals(expected, actual)
+        assertLinesEqual(expected, actual)
     }
 
     @Test
@@ -45,7 +47,7 @@ class TableFormatterTest {
             "\\-----+-----+-------/"
         )
         val actual = tableFormatter.createTable(input)
-        assertEquals(expected, actual)
+        assertLinesEqual(expected, actual)
     }
 
     @Test
@@ -62,7 +64,7 @@ class TableFormatterTest {
             "Peggy Trent Wendy  "
         )
         val actual = tableFormatter.createTable(input)
-        assertEquals(expected, actual)
+        assertLinesEqual(expected, actual)
     }
 
     @Test
@@ -92,18 +94,18 @@ class TableFormatterTest {
             "╚════════════════════════╧═════════════════════════════════╧═════════════════════════╝"
         )
         val actual = tableFormatter.createTable(input)
-        assertEquals(actual, expected)
+        assertLinesEqual(expected, actual)
     }
 
     @Test
     fun leftAndRightJustifySomethingFar() {
         val tableFormatter = TableFormatter.boxDrawing
-        assertEquals(tableFormatter.createTable(listOf(listOf("a"))), listOf("╔═╗", "║a║", "╚═╝"))
-        assertEquals(
+        assertLinesEqual(tableFormatter.createTable(listOf(listOf("a"))), listOf("╔═╗", "║a║", "╚═╝"))
+        assertLinesEqual(
             tableFormatter.createTable(listOf(listOf(LeftJustify("a")))),
             listOf("╔═╗", "║a║", "╚═╝")
         )
-        assertEquals(
+        assertLinesEqual(
             tableFormatter.createTable(listOf(listOf(RightJustify("a")))),
             listOf("╔═╗", "║a║", "╚═╝")
         )
@@ -112,13 +114,13 @@ class TableFormatterTest {
     @Test
     fun testNoColumns() {
         val tableFormatter = TableFormatter.boxDrawing
-        assertEquals(tableFormatter.createTable(listOf(listOf())), listOf("╔╗", "║║", "╚╝"))
+        assertLinesEqual(tableFormatter.createTable(listOf(listOf())), listOf("╔╗", "║║", "╚╝"))
     }
 
     @Test
     fun testNoRows() {
         val tableFormatter = TableFormatter.boxDrawing
-        assertEquals(tableFormatter.createTable(listOf()), listOf("╔╗", "╚╝"))
+        assertLinesEqual(tableFormatter.createTable(listOf()), listOf("╔╗", "╚╝"))
     }
 
     @Test
@@ -139,6 +141,14 @@ class TableFormatterTest {
             "╚═════╧═════╧═════╝"
         )
         val actual = tableFormat.createTable(input)
-        assertEquals(actual, expected)
+        assertLinesEqual(expected, actual)
+    }
+
+    fun assertLinesEqual(expected: List<String>, actual: List<String>) {
+        val difference = ListDifference.compare(
+            "expected", expected,
+            "actual  ", actual
+        )
+        assertTrue(difference.isSame, difference.messageLines.joinToString("\n"))
     }
 }
