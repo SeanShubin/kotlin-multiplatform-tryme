@@ -143,7 +143,7 @@ class TableFormatterTest {
 
     @Test
     fun escapeCells() {
-        val tableFormat = TableFormatter.boxDrawing.copy(cellToString = TableFormatter.defaultCellToString)
+        val tableFormat = TableFormatter.boxDrawing.copy(cellToString = TableFormatter.escapeString)
         val input = listOf(listOf("foo\nbar"))
         val expected = listOf(
             """╔════════╗""",
@@ -156,7 +156,7 @@ class TableFormatterTest {
 
     @Test
     fun truncateCells() {
-        val tableFormat = TableFormatter.boxDrawing.copy(cellToString = TableFormatter.truncateEscapedCell(10))
+        val tableFormat = TableFormatter.boxDrawing.copy(cellToString = TableFormatter.escapeAndTruncateString(10))
         val input = listOf(listOf("a".repeat(100)))
         val expected = listOf(
             "╔═════════════════════════════════════════════╗",

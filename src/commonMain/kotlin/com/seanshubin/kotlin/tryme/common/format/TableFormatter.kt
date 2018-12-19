@@ -105,19 +105,19 @@ data class TableFormatter(
         }
 
     companion object {
-        val defaultCellToString: (Any?) -> String = { cell ->
+        val escapeString: (Any?) -> String = { cell ->
             when (cell) {
                 null -> "null"
                 else -> cell.toString().escape()
             }
         }
 
-        fun truncateEscapedCell(max: Int): (Any?) -> String = { cell ->
-            defaultCellToString(cell).truncate(max)
+        fun escapeAndTruncateString(max: Int): (Any?) -> String = { cell ->
+            escapeString(cell).truncate(max)
         }
 
         val boxDrawing = TableFormatter(
-            cellToString = defaultCellToString,
+            cellToString = escapeString,
             content = RowStyle(
                 left = "║",
                 middle = " ",
@@ -144,7 +144,7 @@ data class TableFormatter(
             )
         )
         val plainText = TableFormatter(
-            cellToString = defaultCellToString,
+            cellToString = escapeString,
             content = RowStyle(
                 left = "|",
                 middle = " ",
@@ -171,7 +171,7 @@ data class TableFormatter(
             )
         )
         val minimal = TableFormatter(
-            cellToString = defaultCellToString,
+            cellToString = escapeString,
             content = RowStyle(
                 left = "",
                 middle = " ",
