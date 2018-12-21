@@ -75,9 +75,13 @@ class IndexedCursorTest {
         val cursorA = IndexedCursor(iterator)
         val cursorB1 = cursorA.next()
         val cursorB2 = cursorA.next()
+        val cursorC1 = cursorB1.next()
+        val cursorC2 = cursorB2.next()
 
         assertEquals('b', cursorB1.value)
         assertEquals('b', cursorB2.value)
+        assertEquals('c', cursorC1.value)
+        assertEquals('c', cursorC2.value)
 
     }
 
