@@ -8,7 +8,11 @@ import java.time.Clock
 import java.time.ZonedDateTime
 import java.time.format.DateTimeFormatter
 
-class QueryExec(val url: String, val user: String, val password: String) {
+class QueryExec(
+    private val url: String,
+    private val user: String,
+    private val password: String
+) {
     fun exec(name: String, query: String) {
         val connectionLifecycle = JdbcConnectionLifecycle(url, user, password)
         val table = connectionLifecycle.withResultSet(query) { resultSet ->
@@ -28,6 +32,5 @@ class QueryExec(val url: String, val user: String, val password: String) {
         val logFile = baseDir.resolve(fileName)
         Files.write(logFile, lines, StandardCharsets.UTF_8)
         lines.forEach(::println)
-
     }
 }
