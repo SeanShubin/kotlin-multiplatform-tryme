@@ -10,9 +10,13 @@ interface Cursor<ElementType> {
     fun between(that: Cursor<ElementType>): List<ElementType> {
         val results = mutableListOf<ElementType>()
         var current = this
-        while (!current.isEnd && current.backingCursor() != that.backingCursor()) {
-            results.add(current.value)
-            current = current.next()
+        while (current.backingCursor() != that.backingCursor()) {
+            if (current.isEnd) {
+                throw RuntimeException("Unable to navigate from begin to end cursor")
+            } else {
+                results.add(current.value)
+                current = current.next()
+            }
         }
         return results
     }

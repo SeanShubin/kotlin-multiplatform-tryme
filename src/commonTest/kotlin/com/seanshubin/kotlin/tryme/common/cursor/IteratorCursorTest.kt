@@ -35,6 +35,21 @@ class IteratorCursorTest {
     }
 
     @Test
+    fun pastEnd() {
+        val s = "abc"
+        val cursorA = IteratorCursor.create(s)
+        val cursorB = cursorA.next()
+        val cursorC = cursorB.next()
+        val cursorEnd = cursorC.next()
+        try {
+            cursorEnd.next()
+            fail("Should have thrown exception")
+        } catch (ex: Exception) {
+            assertEquals(ex.message, "No next() past end of iterator")
+        }
+    }
+
+    @Test
     fun valueIs() {
         val s = "abc"
         val cursorB = IteratorCursor.create(s).next()
@@ -82,5 +97,24 @@ class IteratorCursorTest {
 
         // then
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun betweenNeverEncountersCursor() {
+        // given
+        val s = "abcde"
+        val cursorA = IteratorCursor.create(s)
+        val cursorB = cursorA.next()
+        val cursorC = cursorB.next()
+        val cursorD = cursorC.next()
+        val cursorE = cursorD.next()
+
+        // when
+        try {
+            cursorE.between(cursorB)
+            fail("Should have thrown exception")
+        } catch (ex: Exception) {
+            assertEquals(ex.message, "Unable to navigate from begin to end cursor")
+        }
     }
 }

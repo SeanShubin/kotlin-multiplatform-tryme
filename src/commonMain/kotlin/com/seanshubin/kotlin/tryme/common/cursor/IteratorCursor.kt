@@ -8,6 +8,7 @@ class IteratorCursor<ElementType> private constructor(private val iterator: Iter
     override val value: ElementType get() = valueFromIterator ?: throw RuntimeException("No value past end of iterator")
     override fun backingCursor(): Cursor<ElementType> = this
     override fun next(): Cursor<ElementType> {
+        if (isEnd) throw RuntimeException("No next() past end of iterator")
         if (nextCursor == null) {
             nextCursor = IteratorCursor(iterator)
         }
