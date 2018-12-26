@@ -2,10 +2,10 @@ package com.seanshubin.kotlin.tryme.common.calculator
 
 import com.seanshubin.kotlin.tryme.common.calculator.CharPredicates.isNumberChar
 import com.seanshubin.kotlin.tryme.common.calculator.CharPredicates.isWordChar
-import com.seanshubin.kotlin.tryme.common.cursor.Cursor
+import com.seanshubin.kotlin.tryme.common.cursor.DetailCursor
 
 data class Calculator(
-    val cursor: Cursor<Char, Int>,
+    val cursor: DetailCursor<Char, Int>,
     val stack: Stack<Ast> = Stack(),
     val error: String? = null
 ) {

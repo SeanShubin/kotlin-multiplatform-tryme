@@ -2,11 +2,11 @@ package com.seanshubin.kotlin.tryme.common.cursor
 
 import kotlin.test.*
 
-class IndexedCursorTest {
+class IteratorCursorTest {
     @Test
     fun value() {
         val s = "abc"
-        val cursorA = IndexedCursor.create(s)
+        val cursorA = IteratorCursor.create(s)
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorEnd = cursorC.next()
@@ -22,22 +22,9 @@ class IndexedCursorTest {
     }
 
     @Test
-    fun detail() {
-        val s = "abc"
-        val cursorA = IndexedCursor.create(s)
-        val cursorB = cursorA.next()
-        val cursorC = cursorB.next()
-        val cursorEnd = cursorC.next()
-        assertEquals(0, cursorA.detail)
-        assertEquals(1, cursorB.detail)
-        assertEquals(2, cursorC.detail)
-        assertEquals(3, cursorEnd.detail)
-    }
-
-    @Test
     fun end() {
         val s = "abc"
-        val cursorA = IndexedCursor.create(s)
+        val cursorA = IteratorCursor.create(s)
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorEnd = cursorC.next()
@@ -50,7 +37,7 @@ class IndexedCursorTest {
     @Test
     fun valueIs() {
         val s = "abc"
-        val cursorB = IndexedCursor.create(s).next()
+        val cursorB = IteratorCursor.create(s).next()
         assertFalse(cursorB.valueIs('a'))
         assertTrue(cursorB.valueIs('b'))
     }
@@ -58,7 +45,7 @@ class IndexedCursorTest {
     @Test
     fun valueIsPredicate() {
         val s = "abc"
-        val cursorB = IndexedCursor.create(s).next()
+        val cursorB = IteratorCursor.create(s).next()
         assertFalse(cursorB.valueIs { it == 'a' })
         assertTrue(cursorB.valueIs { it == 'b' })
     }
@@ -66,7 +53,7 @@ class IndexedCursorTest {
     @Test
     fun immutable() {
         val s = "abc"
-        val cursorA = IndexedCursor.create(s)
+        val cursorA = IteratorCursor.create(s)
         val cursorB1 = cursorA.next()
         val cursorB2 = cursorA.next()
         val cursorC1 = cursorB1.next()
@@ -83,7 +70,7 @@ class IndexedCursorTest {
     fun between() {
         // given
         val s = "abcde"
-        val cursorA = IndexedCursor.create(s)
+        val cursorA = IteratorCursor.create(s)
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorD = cursorC.next()

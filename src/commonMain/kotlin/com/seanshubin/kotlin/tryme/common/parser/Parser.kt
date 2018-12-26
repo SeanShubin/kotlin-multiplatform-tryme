@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.parser
 
-import com.seanshubin.kotlin.tryme.common.cursor.Cursor
+import com.seanshubin.kotlin.tryme.common.cursor.DetailCursor
 import com.seanshubin.kotlin.tryme.common.cursor.StringCursor
 
 class Parser(vararg rules: Rule) {
@@ -12,7 +12,7 @@ class Parser(vararg rules: Rule) {
         return parse(rule, cursor)
     }
 
-    fun parse(rule: Rule, cursor: Cursor<Char, Int>): Result {
+    fun parse(rule: Rule, cursor: DetailCursor<Char, Int>): Result {
         val result = rule.apply(Result(ruleMap = ruleMap, cursor = cursor))
         return result
     }

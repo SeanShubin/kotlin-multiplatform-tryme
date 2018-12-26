@@ -1,30 +1,19 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
-class IndexedCursor<ElementType>(
-    private val iterator: Iterator<ElementType>,
-    private val index: Int = 0
-) : Cursor<ElementType, Int> {
-    private val valueFromIterator: ElementType? = if (iterator.hasNext()) iterator.next() else null
-    private var nextCursor: IndexedCursor<ElementType>? = null
-    override val isEnd: Boolean
-        get() = valueFromIterator == null
-    override val detail: Int
-        get() = index
-    override val value: ElementType
-        get() = valueFromIterator ?: throw RuntimeException("No value past end of iterator")
+class IndexedCursor<ElementType> private constructor(
+    private val cursor: Cursor<ElementType>,
+    private val index: Int
+) : DetailCursor<ElementType, Int> {
+    override val detail: Int get() = index
+    override val isEnd: Boolean get() = cursor.isEnd
+    override val value: ElementType get() = cursor.value
+    override fun backingCursor(): Cursor<ElementType> = cursor.backingCursor()
+    override fun next(): IndexedCursor<ElementType> = IndexedCursor(cursor.next(), index + 1)
 
-    override fun valueIs(compareTo: ElementType): Boolean =
-        if (valueFromIterator == null) false
-        else valueFromIterator == compareTo
+    companion object {
+        fun <ElementType> create(iterator: Iterator<ElementType>): IndexedCursor<ElementType> =
+            IndexedCursor(IteratorCursor.create(iterator), 0)
 
-    override fun valueIs(predicate: (ElementType) -> Boolean): Boolean =
-        if (valueFromIterator == null) false
-        else predicate(valueFromIterator)
-
-    override fun next(): IndexedCursor<ElementType> {
-        if (nextCursor == null) {
-            nextCursor = IndexedCursor(iterator, index + 1)
-        }
-        return nextCursor!!
+        fun create(s: String): IndexedCursor<Char> = create(s.iterator())
     }
 }
