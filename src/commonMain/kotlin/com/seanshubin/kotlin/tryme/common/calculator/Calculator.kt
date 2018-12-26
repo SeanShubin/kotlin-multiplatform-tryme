@@ -8,8 +8,9 @@ import com.seanshubin.kotlin.tryme.common.cursor.RowCol
 data class Calculator(
     val cursor: DetailCursor<Char, RowCol>,
     val stack: Stack<Ast> = Stack(),
-    val error: String? = null
+    val errorReason: String? = null
 ) {
+    val errorMessage: String get() = "[${cursor.detail.row + 1}:${cursor.detail.col + 1}] $errorReason"
     private fun next(): Calculator = copy(cursor = cursor.next())
     private fun numberNext(): Calculator {
         val number = cursor.value.toInt() - '0'.toInt()
@@ -17,7 +18,7 @@ data class Calculator(
         return copy(cursor = cursor.next(), stack = stack.push(ast))
     }
 
-    private fun error(message: String): Calculator = copy(error = message)
+    private fun error(reason: String): Calculator = copy(errorReason = reason)
     private fun valueIs(value: Char): Boolean = cursor.valueIs(value)
     private fun isWord(): Boolean = cursor.valueIs(isWordChar)
     private fun isNumber(): Boolean = cursor.valueIs(isNumberChar)

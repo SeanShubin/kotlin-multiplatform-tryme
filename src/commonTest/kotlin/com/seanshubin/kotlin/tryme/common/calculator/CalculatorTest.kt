@@ -11,7 +11,7 @@ class CalculatorTest {
         val calculator = Calculator(RowColCursor.create("1")).expr()
         assertEquals(0, calculator.cursor.detail.row)
         assertEquals(1, calculator.cursor.detail.col)
-        assertNull(calculator.error)
+        assertNull(calculator.errorReason)
     }
 
     @Test
@@ -19,7 +19,7 @@ class CalculatorTest {
         val calculator = Calculator(RowColCursor.create("1+2")).expr()
         assertEquals(0, calculator.cursor.detail.row)
         assertEquals(3, calculator.cursor.detail.col)
-        assertNull(calculator.error)
+        assertNull(calculator.errorReason)
     }
 
     @Test
@@ -27,7 +27,7 @@ class CalculatorTest {
         val calculator = Calculator(RowColCursor.create("1+")).expr()
         assertEquals(0, calculator.cursor.detail.row)
         assertEquals(2, calculator.cursor.detail.col)
-        assertEquals("factor expected", calculator.error)
+        assertEquals("[1:3] factor expected", calculator.errorMessage)
     }
 
     @Test
@@ -35,6 +35,6 @@ class CalculatorTest {
         val calculator = Calculator(RowColCursor.create("(1")).expr()
         assertEquals(0, calculator.cursor.detail.row)
         assertEquals(2, calculator.cursor.detail.col)
-        assertEquals("closing ')' expected", calculator.error)
+        assertEquals("[1:3] closing ')' expected", calculator.errorMessage)
     }
 }
