@@ -3,9 +3,10 @@ package com.seanshubin.kotlin.tryme.common.calculator
 import com.seanshubin.kotlin.tryme.common.calculator.CharPredicates.isNumberChar
 import com.seanshubin.kotlin.tryme.common.calculator.CharPredicates.isWordChar
 import com.seanshubin.kotlin.tryme.common.cursor.DetailCursor
+import com.seanshubin.kotlin.tryme.common.cursor.RowCol
 
 data class Calculator(
-    val cursor: DetailCursor<Char, Int>,
+    val cursor: DetailCursor<Char, RowCol>,
     val stack: Stack<Ast> = Stack(),
     val error: String? = null
 ) {
