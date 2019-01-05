@@ -1,7 +1,7 @@
 package com.seanshubin.kotlin.tryme.jvm.process
 
 import com.seanshubin.kotlin.tryme.common.format.MillisecondsFormat
-import com.seanshubin.kotlin.tryme.jvm.timer
+import com.seanshubin.kotlin.tryme.jvm.timer.TimerFactory
 import java.nio.file.Files
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -103,7 +103,8 @@ fun runCommandsInDirectories(
 fun isNoteworthy(result: DirectoryResult): Boolean = result.hasUnsuccessfulCommand()
 
 fun main(args: Array<String>) {
-    val timeTaken = timer {
+    val timer = TimerFactory.createDefault()
+    val (duration, result) = timer.durationAndResult {
         val basePath: Path = Paths.get(args[0])
         val directories = getDirectories(basePath)
         val commands = getCommands()
@@ -115,5 +116,5 @@ fun main(args: Array<String>) {
         noteworthyResults.map(DirectoryResult::directory).forEach(::println)
         println(noteworthyResults.size)
     }
-    println(MillisecondsFormat.format(timeTaken))
+    println(MillisecondsFormat.format(duration.toMillis()))
 }

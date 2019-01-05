@@ -1,14 +1,15 @@
 package com.seanshubin.kotlin.tryme.jvm.async
 
 import com.seanshubin.kotlin.tryme.common.format.MillisecondsFormat
-import com.seanshubin.kotlin.tryme.jvm.timer
+import com.seanshubin.kotlin.tryme.jvm.timer.TimerFactory
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import java.math.BigInteger
 
 fun main(args: Array<String>) {
-    val time = timer {
+    val timer = TimerFactory.createDefault()
+    val (duration, result) = timer.durationAndResult {
         val jobs = (1000..10000 step 1000).map {
             GlobalScope.launch {
                 val longValue = it.toLong()
@@ -21,6 +22,6 @@ fun main(args: Array<String>) {
             jobs.forEach { it.join() }
         }
     }
-    val formattedTime = MillisecondsFormat.format(time)
+    val formattedTime = MillisecondsFormat.format(duration.toMillis())
     println(formattedTime) //4 seconds 659 milliseconds
 }
