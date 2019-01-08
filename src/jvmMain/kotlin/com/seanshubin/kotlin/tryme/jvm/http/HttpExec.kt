@@ -6,11 +6,13 @@ import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
-class HttpExec(val client: HttpClient,
-               val timer: Timer,
-               val requestEvent: (Request)->Unit,
-               val responseEvent:(Request, Response) -> Unit): Http{
-    override fun send(request:Request):Response {
+class HttpExec(
+    val client: HttpClient,
+    val timer: Timer,
+    val requestEvent: (Request) -> Unit,
+    val responseEvent: (Request, Response) -> Unit
+) : Http {
+    override fun send(request: Request): Response {
         requestEvent(request)
         val builder = HttpRequest.newBuilder()
         val uri = URI(request.uri)
@@ -20,8 +22,9 @@ class HttpExec(val client: HttpClient,
         val httpRequest = builder.build()
         val bodyHandler = HttpResponse.BodyHandlers.ofByteArray()
         val (duration, httpResponse) = timer.durationAndResult { client.send(httpRequest, bodyHandler) }
-        val responseHeaders = httpResponse.headers().map().map{ (name, values) -> Pair(name, values.joinToString(","))}
-        val response = Response(httpResponse.statusCode(), httpResponse.body(), responseHeaders, duration)
+        val responseHeaders =
+            httpResponse.headers().map().map { (name, values) -> Pair(name, values.joinToString(",")) }
+        val response = Response(httpResponse.statusCode(), httpResponse.body().toList(), responseHeaders, duration)
         responseEvent(request, response)
         return response
     }
@@ -31,7 +34,7 @@ class HttpExec(val client: HttpClient,
         var currentRequest = request
         var currentResponse = send(request)
         result.add(RequestResponse(currentRequest, currentResponse))
-        while(currentResponse.isRedirect){
+        while (currentResponse.isRedirect) {
             currentRequest = currentResponse.followRedirect
             currentResponse = send(currentRequest)
             result.add(RequestResponse(currentRequest, currentResponse))

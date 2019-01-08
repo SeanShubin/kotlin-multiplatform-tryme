@@ -1,12 +1,13 @@
 package com.seanshubin.kotlin.tryme.jvm.http
 
 import com.seanshubin.kotlin.tryme.jvm.collection.CollectionUtil.exactlyOne
+import com.seanshubin.kotlin.tryme.jvm.string.StringUtil.toUtf8
 import java.net.HttpURLConnection
 import java.time.Duration
 
 data class Response(
     val statusCode: Int,
-    val body: ByteArray,
+    val body: List<Byte>,
     val headers: List<Pair<String, String>>,
     val duration: Duration
 ) {
@@ -20,12 +21,12 @@ data class Response(
         get() {
             val uri = headers.lookup("location")
             val method = "get"
-            val body = ByteArray(0)
+            val body = emptyList<Byte>()
             return Request(uri, method, body, emptyList())
         }
 
-    val cookies:Cookies
-        get(){
+    val cookies: Cookies
+        get() {
             val cookieHeaders = headers.filter { it.first.equals("set-cookie", ignoreCase = true) }
             val cookieList = cookieHeaders.map { (_, cookieString) ->
                 Cookie.parse(cookieString)
@@ -36,13 +37,13 @@ data class Response(
     private fun List<Pair<String, String>>.lookup(name: String): String =
         this.filter { (key, _) -> name.equals(key, ignoreCase = true) }.exactlyOne().second
 
-    fun toTable():List<List<Any>> =
+    fun toTable(): List<List<Any>> =
         listOf(
             listOf("statusCode", statusCode),
-            listOf("body", body),
+            listOf("body", body.toUtf8()),
             listOf("duration", duration)
         ) + headersToTable()
 
-    private fun headersToTable():List<List<Any>> =
-        headers.map{(name, value) -> listOf(name, value)}
+    private fun headersToTable(): List<List<Any>> =
+        headers.map { (name, value) -> listOf(name, value) }
 }
