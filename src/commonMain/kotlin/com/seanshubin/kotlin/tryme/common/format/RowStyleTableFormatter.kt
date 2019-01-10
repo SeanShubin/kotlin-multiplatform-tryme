@@ -1,8 +1,7 @@
 package com.seanshubin.kotlin.tryme.common.format
 
 import com.seanshubin.kotlin.tryme.common.format.ListUtil.transpose
-import com.seanshubin.kotlin.tryme.common.format.StringUtil.escape
-import com.seanshubin.kotlin.tryme.common.format.StringUtil.truncate
+import com.seanshubin.kotlin.tryme.common.format.TableFormatter.Companion.escapeString
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter.Justify.Left
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter.Justify.Right
 
@@ -13,12 +12,6 @@ data class RowStyleTableFormatter(
     private val bottom: RowStyle? = null,
     private val separator: RowStyle? = null
 ) : TableFormatter {
-    interface Justify {
-        data class Left(val x: Any?) : Justify
-
-        data class Right(val x: Any?) : Justify
-    }
-
     override fun format(originalRows: List<List<Any?>>): List<String> {
         val paddedRows = makeAllRowsTheSameSize(originalRows, "")
         val columns = paddedRows.transpose()
@@ -77,8 +70,8 @@ data class RowStyleTableFormatter(
 
     private fun formatCell(cell: Any?, width: Int, padding: String): String =
         when (cell) {
-            is Justify.Left -> leftJustify(justifiedCellToString(cell.x), width, padding)
-            is Justify.Right -> rightJustify(justifiedCellToString(cell.x), width, padding)
+            is Left -> leftJustify(justifiedCellToString(cell.x), width, padding)
+            is Right -> rightJustify(justifiedCellToString(cell.x), width, padding)
             null -> rightJustify(justifiedCellToString(cell), width, padding)
             is String -> leftJustify(justifiedCellToString(cell), width, padding)
             else -> rightJustify(justifiedCellToString(cell), width, padding)
@@ -105,17 +98,6 @@ data class RowStyleTableFormatter(
         }
 
     companion object {
-        val escapeString: (Any?) -> String = { cell ->
-            when (cell) {
-                null -> "null"
-                else -> cell.toString().escape()
-            }
-        }
-
-        fun escapeAndTruncateString(max: Int): (Any?) -> String = { cell ->
-            escapeString(cell).truncate(max)
-        }
-
         val boxDrawing = RowStyleTableFormatter(
             cellToString = escapeString,
             content = RowStyle(

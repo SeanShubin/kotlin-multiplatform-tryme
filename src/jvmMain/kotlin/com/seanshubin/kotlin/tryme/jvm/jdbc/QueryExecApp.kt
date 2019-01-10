@@ -3,6 +3,7 @@ package com.seanshubin.kotlin.tryme.jvm.jdbc
 import com.seanshubin.kotlin.tryme.common.format.RowStyleTableFormatter
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter
 import com.seanshubin.kotlin.tryme.jvm.logger.ConsoleAndFileLogger
+import com.seanshubin.kotlin.tryme.jvm.timer.Timer
 import java.nio.file.Paths
 import java.time.Clock
 
@@ -21,6 +22,7 @@ fun main(args: Array<String>) {
         val table = tableFormatter.format(data)
         logger.log(table)
     }
-    val queryExec = QueryExec(url, user, password, logTable)
+    val timer = Timer(clock)
+    val queryExec = QueryExec(url, user, password, timer, logger::log, logTable)
     queryExec.exec(query)
 }

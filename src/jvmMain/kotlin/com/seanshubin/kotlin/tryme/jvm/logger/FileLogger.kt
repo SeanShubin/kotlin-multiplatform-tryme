@@ -16,8 +16,9 @@ class FileLogger(baseDir: Path, name: String, clock: Clock) : Logger {
         val zone = clock.zone
         val zonedDateTime = ZonedDateTime.ofInstant(now, zone)
         val formattedDateTime = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(zonedDateTime)
-        val fileNameSuffix = formattedDateTime.replace(':', '-').replace('.', '-')
-        val fileName = "$name-$fileNameSuffix.log"
+        val baseFileName = "$formattedDateTime-$name"
+        val safeFileName = baseFileName.replace(':', '-').replace('.', '-')
+        val fileName = "$safeFileName.log"
         logFile = baseDir.resolve(fileName)
     }
 
