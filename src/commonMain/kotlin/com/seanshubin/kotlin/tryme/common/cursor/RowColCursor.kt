@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
-class RowColCursor<ElementType> private constructor(
+data class RowColCursor<ElementType> private constructor(
     private val cursor: Cursor<ElementType>,
     private val rowEndMarker: ElementType,
     private val rowCol: RowCol
