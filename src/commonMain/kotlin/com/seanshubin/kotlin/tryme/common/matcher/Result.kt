@@ -1,3 +1,3 @@
 package com.seanshubin.kotlin.tryme.common.matcher
 
-interface Result
+interface Result<T>

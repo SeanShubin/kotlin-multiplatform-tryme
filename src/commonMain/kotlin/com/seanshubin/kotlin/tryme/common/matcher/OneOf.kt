@@ -2,11 +2,11 @@ package com.seanshubin.kotlin.tryme.common.matcher
 
 import com.seanshubin.kotlin.tryme.common.cursor.Cursor
 
-class OneOf(override val name: String, private vararg val matchers: Matcher) : Matcher {
-    override fun checkMatch(cursor: Cursor<Char>): Result {
+class OneOf<T>(override val name: String, private vararg val matchers: Matcher<T>) : Matcher<T> {
+    override fun checkMatch(cursor: Cursor<T>): Result<T> {
         for (matcher in matchers) {
             val result = matcher.checkMatch(cursor)
-            if (result is Success) {
+            if (result is Success<*>) {
                 return result
             }
         }

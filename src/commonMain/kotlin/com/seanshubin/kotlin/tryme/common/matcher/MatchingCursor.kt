@@ -2,22 +2,22 @@ package com.seanshubin.kotlin.tryme.common.matcher
 
 import com.seanshubin.kotlin.tryme.common.cursor.Cursor
 
-class MatchingCursor(val cursor: Cursor<Char>, val matcher: Matcher) : Cursor<Matched<Char>> {
-    private var lazyValue: Matched<Char>? = null
-    private var lazyNext: Cursor<Char>? = null
+class MatchingCursor<T>(val cursor: Cursor<T>, val matcher: Matcher<T>) : Cursor<Matched<T>> {
+    private var lazyValue: Matched<T>? = null
+    private var lazyNext: Cursor<T>? = null
     override val isEnd: Boolean get() = cursor.isEnd
-    override val value: Matched<Char>
+    override val value: Matched<T>
         get() {
             reifyLazy()
             return lazyValue!!
         }
 
-    override fun next(): Cursor<Matched<Char>> {
+    override fun next(): Cursor<Matched<T>> {
         reifyLazy()
         return MatchingCursor(lazyNext!!, matcher)
     }
 
-    override fun backingCursor(): Cursor<Matched<Char>> = this
+    override fun backingCursor(): Cursor<Matched<T>> = this
 
     private fun reifyLazy() {
         if (lazyValue == null) {
