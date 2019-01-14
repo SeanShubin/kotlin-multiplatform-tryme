@@ -15,6 +15,8 @@ data class IteratorCursor<ElementType> constructor(private val iterator: Iterato
         return nextCursor!!
     }
 
+    override fun toString(): String = "IteratorCursor(valueFromIterator=$valueFromIterator, nextCursor=$nextCursor)"
+
     companion object {
         fun <ElementType> create(iterator: Iterator<ElementType>) = IteratorCursor(iterator)
         fun create(s: String): IteratorCursor<Char> = create(s.iterator())

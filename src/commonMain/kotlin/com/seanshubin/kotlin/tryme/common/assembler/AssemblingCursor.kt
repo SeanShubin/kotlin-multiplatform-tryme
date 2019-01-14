@@ -4,23 +4,23 @@ import com.seanshubin.kotlin.tryme.common.cursor.Cursor
 import com.seanshubin.kotlin.tryme.common.matcher.Matched
 import com.seanshubin.kotlin.tryme.common.matcher.Tree
 
-class AssemblingCursor(val cursor: Cursor<Matched<Char>>, val assemble: (String, Tree<Char>) -> Token) : Cursor<Token> {
-    private var lazyValue: Token? = null
-    private var lazyNext: Cursor<Token>? = null
+class AssemblingCursor<T>(val cursor: Cursor<Matched<Char>>, val assemble: (String, Tree<Char>) -> T) : Cursor<T> {
+    private var lazyValue: T? = null
+    private var lazyNext: Cursor<T>? = null
     override val isEnd: Boolean
         get() = cursor.isEnd
-    override val value: Token
+    override val value: T
         get() {
             reifyLazy()
             return lazyValue!!
         }
 
-    override fun next(): Cursor<Token> {
+    override fun next(): Cursor<T> {
         reifyLazy()
         return lazyNext!!
     }
 
-    override fun backingCursor(): Cursor<Token> = this
+    override fun backingCursor(): Cursor<T> = this
     private fun reifyLazy() {
         if (lazyValue == null) {
             lazyValue = assemble(cursor.value.name, cursor.value.tree)
