@@ -20,4 +20,14 @@ interface Cursor<ElementType> {
         }
         return results
     }
+
+    fun reify(): List<ElementType> {
+        val results = mutableListOf<ElementType>()
+        var current = this
+        while (!current.isEnd) {
+            results.add(current.value)
+            current = current.next()
+        }
+        return results
+    }
 }
