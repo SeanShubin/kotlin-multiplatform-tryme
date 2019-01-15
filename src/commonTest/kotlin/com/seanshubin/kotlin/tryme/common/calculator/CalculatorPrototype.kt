@@ -2,7 +2,7 @@ package com.seanshubin.kotlin.tryme.common.calculator
 
 import com.seanshubin.kotlin.tryme.common.assembler.AssemblingCursor
 import com.seanshubin.kotlin.tryme.common.cursor.FilterValueCursor
-import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
+import com.seanshubin.kotlin.tryme.common.cursor.RowColCursorImpl
 import com.seanshubin.kotlin.tryme.common.matcher.*
 
 /*
@@ -138,7 +138,7 @@ object CalculatorExpressionMatchers {
 
 fun main(args: Array<String>) {
     val s = "123 + 234 + (345 + 456)"
-    val charCursor = RowColCursor.create(s)
+    val charCursor = RowColCursorImpl.create(s)
     val tokenMatchCursor = MatchingCursor(charCursor, CalculatorTokenMatchers["token"])
     val assemblingCursor = AssemblingCursor(tokenMatchCursor, CalculatorTokenAssemblers.assemble)
     val filterCursor = FilterValueCursor(assemblingCursor, Token.Whitespace)

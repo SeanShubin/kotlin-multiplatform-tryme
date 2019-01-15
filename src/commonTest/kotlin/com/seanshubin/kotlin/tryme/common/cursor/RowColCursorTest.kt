@@ -7,7 +7,7 @@ class RowColCursorTest {
     @Test
     fun value() {
         val s = "a\nc\re\r\ng"
-        val cursorA = RowColCursor.create(s)
+        val cursorA = RowColCursorImpl.create(s)
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorD = cursorC.next()
@@ -26,7 +26,7 @@ class RowColCursorTest {
     @Test
     fun detail() {
         val s = "a\nc\re\r\ng"
-        val cursorA = RowColCursor.create(s)
+        val cursorA = RowColCursorImpl.create(s)
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorD = cursorC.next()
