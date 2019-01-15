@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
-class IndexedCursor<ElementType> private constructor(
+class IndexedCursor<ElementType : Any> private constructor(
     private val cursor: Cursor<ElementType>,
     private val index: Int
 ) : DetailCursor<ElementType, Int> {
@@ -11,7 +11,7 @@ class IndexedCursor<ElementType> private constructor(
     override fun next(): IndexedCursor<ElementType> = IndexedCursor(cursor.next(), index + 1)
 
     companion object {
-        fun <ElementType> create(iterator: Iterator<ElementType>): IndexedCursor<ElementType> =
+        fun <ElementType : Any> create(iterator: Iterator<ElementType>): IndexedCursor<ElementType> =
             IndexedCursor(IteratorCursor.create(iterator), 0)
 
         fun create(s: String): IndexedCursor<Char> = create(s.iterator())

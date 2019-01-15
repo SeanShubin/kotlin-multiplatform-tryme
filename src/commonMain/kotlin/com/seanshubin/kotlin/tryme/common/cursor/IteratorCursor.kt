@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
-data class IteratorCursor<ElementType> constructor(private val iterator: Iterator<ElementType>) :
+data class IteratorCursor<ElementType : Any> constructor(private val iterator: Iterator<ElementType>) :
     Cursor<ElementType> {
     private val valueFromIterator: ElementType? = if (iterator.hasNext()) iterator.next() else null
     private var nextCursor: IteratorCursor<ElementType>? = null
@@ -18,7 +18,7 @@ data class IteratorCursor<ElementType> constructor(private val iterator: Iterato
     override fun toString(): String = "IteratorCursor(valueFromIterator=$valueFromIterator, nextCursor=$nextCursor)"
 
     companion object {
-        fun <ElementType> create(iterator: Iterator<ElementType>) = IteratorCursor(iterator)
+        fun <ElementType : Any> create(iterator: Iterator<ElementType>) = IteratorCursor(iterator)
         fun create(s: String): IteratorCursor<Char> = create(s.iterator())
     }
 }

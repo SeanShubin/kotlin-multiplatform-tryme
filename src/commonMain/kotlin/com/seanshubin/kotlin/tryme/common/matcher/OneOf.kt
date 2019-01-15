@@ -2,16 +2,20 @@ package com.seanshubin.kotlin.tryme.common.matcher
 
 import com.seanshubin.kotlin.tryme.common.cursor.Cursor
 
-class OneOf<T>(override val name: String, private vararg val matchers: Matcher<T>) : Matcher<T> {
+class OneOf<T>(
+    override val name: String,
+    private val lookup: (String) -> Matcher<T>,
+    private vararg val matcherNames: String
+) : Matcher<T> {
     override fun checkMatch(cursor: Cursor<T>): Result<T> {
-        for (matcher in matchers) {
+        for (matcherName in matcherNames) {
+            val matcher = lookup(matcherName)
             val result = matcher.checkMatch(cursor)
             if (result is Success<*>) {
                 return result
             }
         }
-        val names = matchers.map { it.name }
-        val joinedNames = names.joinToString(", ")
+        val joinedNames = matcherNames.joinToString(", ")
         val message = "Expected one of: $joinedNames"
         return Failure(message, cursor)
     }
