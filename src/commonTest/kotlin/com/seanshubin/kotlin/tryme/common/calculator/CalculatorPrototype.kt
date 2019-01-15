@@ -121,15 +121,19 @@ object CalculatorExpressionMatchers {
     private val minus: Matcher<Token> = Value("minus", Token.Minus)
     private val times: Matcher<Token> = Value("times", Token.Times)
     private val divide: Matcher<Token> = Value("divide", Token.Divide)
+    private val openParen: Matcher<Token> = Value("open-paren", Token.OpenParen)
+    private val closeParen: Matcher<Token> = Value("close-paren", Token.CloseParen)
 
     private val matcherList = listOf<Matcher<Token>>(
-        expression, expressionInParenthesis,
+        expression, expressionInParenthesis, openParen, closeParen,
         term, termTail, termPart, termOperator,
         factor, factorTail, factorPart, factorOperator,
         number, plus, minus, times, divide
     )
     private val matcherMap = matcherList.map { Pair(it.name, it) }.toMap()
-    operator fun get(name: String): Matcher<Token> = matcherMap[name]!!
+    operator fun get(name: String): Matcher<Token> =
+        matcherMap[name] ?: throw RuntimeException("matcher named '$name' not found")
+
 }
 
 fun main(args: Array<String>) {
