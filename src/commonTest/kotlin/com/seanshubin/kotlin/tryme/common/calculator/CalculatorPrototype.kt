@@ -107,7 +107,7 @@ object CalculatorTokenAssemblers {
 object CalculatorExpressionMatchers {
     private val expression = Sequence("expression", ::get, "term", "term-tail")
     private val term = Sequence("term", ::get, "factor", "factor-tail")
-    private val factor = Sequence("factor", ::get, "number", "expression-in-parenthesis")
+    private val factor = OneOf("factor", ::get, "number", "expression-in-parenthesis")
     private val termTail = ZeroOrMore("term-tail", ::get, "term-part")
     private val termPart = Sequence("term-part", ::get, "term-operator", "term")
     private val termOperator = OneOf("term-operator", ::get, "plus", "minus")
@@ -143,10 +143,9 @@ fun main(args: Array<String>) {
     val assemblingCursor = AssemblingCursor(tokenMatchCursor, CalculatorTokenAssemblers.assemble)
     val filterCursor = FilterValueCursor(assemblingCursor, Token.Whitespace)
     val expressionMachCursor = MatchingCursor(filterCursor, CalculatorExpressionMatchers["expression"])
-//    val tokenMatches = tokenMatchCursor.reify()
-//    tokenMatches.forEach(::println)
-//    val assemblyMatches = filterCursor.reify()
-//    assemblyMatches.forEach(::println)
-    val expressionMatches = expressionMachCursor.reify()
-    expressionMatches.forEach(::println)
+    var cursor = expressionMachCursor
+    while (!cursor.isEnd) {
+        cursor.value.tree.toLines(0).forEach(::println)
+        cursor = cursor.next()
+    }
 }

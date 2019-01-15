@@ -14,7 +14,7 @@ class MatchingCursor<T>(val cursor: RowColCursor<T>, val matcher: Matcher<T>) : 
             return lazyValue!!
         }
 
-    override fun next(): RowColCursor<Matched<T>> {
+    override fun next(): MatchingCursor<T> {
         reifyLazy()
         return MatchingCursor(lazyNext!!, matcher)
     }
