@@ -1,12 +1,16 @@
 package com.seanshubin.kotlin.tryme.common.assembler
 
-import com.seanshubin.kotlin.tryme.common.cursor.Cursor
+import com.seanshubin.kotlin.tryme.common.cursor.RowCol
+import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
 import com.seanshubin.kotlin.tryme.common.matcher.Matched
 import com.seanshubin.kotlin.tryme.common.matcher.Tree
 
-class AssemblingCursor<T>(val cursor: Cursor<Matched<Char>>, val assemble: (String, Tree<Char>) -> T) : Cursor<T> {
+class AssemblingCursor<T>(
+    val cursor: RowColCursor<Matched<Char>>,
+    val assemble: (String, Tree<Char>) -> T
+) : RowColCursor<T> {
     private var lazyValue: T? = null
-    private var lazyNext: Cursor<T>? = null
+    private var lazyNext: AssemblingCursor<T>? = null
     override val isEnd: Boolean
         get() = cursor.isEnd
     override val value: T
@@ -15,12 +19,13 @@ class AssemblingCursor<T>(val cursor: Cursor<Matched<Char>>, val assemble: (Stri
             return lazyValue!!
         }
 
-    override fun next(): Cursor<T> {
+    override fun next(): AssemblingCursor<T> {
         reifyLazy()
         return lazyNext!!
     }
 
-    override fun backingCursor(): Cursor<T> = this
+    override fun backingCursor(): AssemblingCursor<T> = this
+    override val detail: RowCol get() = cursor.detail
     private fun reifyLazy() {
         if (lazyValue == null) {
             lazyValue = assemble(cursor.value.name, cursor.value.tree)

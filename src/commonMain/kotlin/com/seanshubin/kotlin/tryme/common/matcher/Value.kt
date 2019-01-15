@@ -1,9 +1,9 @@
 package com.seanshubin.kotlin.tryme.common.matcher
 
-import com.seanshubin.kotlin.tryme.common.cursor.Cursor
+import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
 
 class Value<T>(override val name: String, private val expected: T) : Matcher<T> {
-    override fun checkMatch(cursor: Cursor<T>): Result<T> {
+    override fun checkMatch(cursor: RowColCursor<T>): Result<T> {
         return if (cursor.valueIs(expected)) {
             Success(name, Leaf(cursor.value), cursor.next())
         } else {

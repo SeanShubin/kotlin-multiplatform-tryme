@@ -4,7 +4,7 @@ data class RowColCursorImpl<ElementType> private constructor(
     private val cursor: Cursor<ElementType>,
     private val rowEndMarker: ElementType,
     private val rowCol: RowCol
-) : DetailCursor<ElementType, RowCol> {
+) : RowColCursor<ElementType> {
     private var nextCursor: RowColCursorImpl<ElementType>? = null
     override val detail: RowCol get() = rowCol
     override val isEnd: Boolean get() = cursor.isEnd
