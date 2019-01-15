@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
-data class RowColCursor<ElementType : Any> private constructor(
+data class RowColCursor<ElementType> private constructor(
     private val cursor: Cursor<ElementType>,
     private val rowEndMarker: ElementType,
     private val rowCol: RowCol
@@ -23,10 +23,10 @@ data class RowColCursor<ElementType : Any> private constructor(
     }
 
     companion object {
-        fun <ElementType : Any> create(iterator: Iterator<ElementType>, rowEndMarker: ElementType) =
+        fun <ElementType> create(iterator: Iterator<ElementType>, rowEndMarker: ElementType) =
             create(IteratorCursor.create(iterator), rowEndMarker)
 
-        fun <ElementType : Any> create(cursor: Cursor<ElementType>, rowEndMarker: ElementType) =
+        fun <ElementType> create(cursor: Cursor<ElementType>, rowEndMarker: ElementType) =
             RowColCursor(cursor, rowEndMarker, RowCol(0, 0))
 
         fun create(s: String): RowColCursor<Char> = create(NormalizeNewlineCursor.create(s), '\n')

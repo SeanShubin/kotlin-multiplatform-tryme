@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
-class FilterValueCursor<ElementType : Any>(
+class FilterValueCursor<ElementType>(
     originalBackingCursor: Cursor<ElementType>,
     private val valueToSkip: ElementType
 ) :
