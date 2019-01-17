@@ -20,6 +20,6 @@ class Sequence<T>(
             currentCursor = result.positionAfterMatch
             trees.add(result.value)
         }
-        return Success(name, Branch(trees), currentCursor)
+        return Success(name, Branch(name, trees), currentCursor)
     }
 }

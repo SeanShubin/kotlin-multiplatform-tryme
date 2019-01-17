@@ -8,7 +8,7 @@ class OneOfValue<T>(override val name: String, private vararg val values: T) : M
             cursor.isEnd -> {
                 Failure("Expected one of ${values.joinToString(", ")}, got end of input", cursor)
             }
-            values.contains(cursor.value) -> Success(name, Leaf(cursor.value), cursor.next())
+            values.contains(cursor.value) -> Success(name, Leaf(name, cursor.value), cursor.next())
             else -> Failure("Expected char in ${values.joinToString(", ")}, got '${cursor.value}'", cursor)
         }
     }

@@ -19,6 +19,6 @@ class ZeroOrMore<T>(
             }
         } while (result is Success)
         val successTrees = successes.map { it.value }
-        return Success(name, Branch(successTrees), newCursor)
+        return Success(name, Branch(name, successTrees), newCursor)
     }
 }

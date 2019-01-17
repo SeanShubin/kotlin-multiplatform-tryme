@@ -23,7 +23,7 @@ class OneOrMore<T>(
                 }
             } while (result is Success<*>)
             val successTrees = successes.map { it.value }
-            Success(name, Branch(successTrees), newCursor)
+            Success(name, Branch(name, successTrees), newCursor)
         } else {
             firstMatch
         }

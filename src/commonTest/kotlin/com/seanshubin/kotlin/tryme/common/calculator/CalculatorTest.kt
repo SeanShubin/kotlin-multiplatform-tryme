@@ -1,40 +1,19 @@
 package com.seanshubin.kotlin.tryme.common.calculator
 
-import com.seanshubin.kotlin.tryme.common.cursor.RowColCursorImpl
 import kotlin.test.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNull
 
 class CalculatorTest {
     @Test
-    fun singleNumber() {
-        val calculator = Calculator(RowColCursorImpl.create("1")).expr()
-        assertEquals(0, calculator.cursor.detail.row)
-        assertEquals(1, calculator.cursor.detail.col)
-        assertNull(calculator.errorReason)
-    }
+    fun number() {
+        // given
+        val input = "123"
+        val expected = Expression.Number(123)
 
-    @Test
-    fun simpleAddition() {
-        val calculator = Calculator(RowColCursorImpl.create("1+2")).expr()
-        assertEquals(0, calculator.cursor.detail.row)
-        assertEquals(3, calculator.cursor.detail.col)
-        assertNull(calculator.errorReason)
-    }
+        // when
+        val actual = CalculatorExpressionAssemblers.parse(input)
 
-    @Test
-    fun errorAddition() {
-        val calculator = Calculator(RowColCursorImpl.create("1+")).expr()
-        assertEquals(0, calculator.cursor.detail.row)
-        assertEquals(2, calculator.cursor.detail.col)
-        assertEquals("[1:3] factor expected", calculator.errorMessage)
-    }
-
-    @Test
-    fun missingCloseParen() {
-        val calculator = Calculator(RowColCursorImpl.create("(1")).expr()
-        assertEquals(0, calculator.cursor.detail.row)
-        assertEquals(2, calculator.cursor.detail.col)
-        assertEquals("[1:3] closing ')' expected", calculator.errorMessage)
+        // then
+        assertEquals(expected, actual)
     }
 }
