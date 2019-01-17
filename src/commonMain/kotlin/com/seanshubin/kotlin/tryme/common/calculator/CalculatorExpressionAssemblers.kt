@@ -5,7 +5,7 @@ import com.seanshubin.kotlin.tryme.common.matcher.Branch
 import com.seanshubin.kotlin.tryme.common.matcher.Leaf
 import com.seanshubin.kotlin.tryme.common.matcher.Tree
 
-data class TermPart(val operator: Token, val expression: Expression)
+data class OperatorExpression(val operator: Token, val expression: Expression)
 
 object CalculatorExpressionAssemblers {
     private fun expression(tree: Tree<Token>): Expression {
@@ -18,7 +18,7 @@ object CalculatorExpressionAssemblers {
         return expression
     }
 
-    private fun combineTermWithTermTail(term: Expression, termTail: List<TermPart>): Expression {
+    private fun combineTermWithTermTail(term: Expression, termTail: List<OperatorExpression>): Expression {
         var current = term
         termTail.forEach { termPart ->
             current = when (termPart.operator) {
@@ -34,20 +34,57 @@ object CalculatorExpressionAssemblers {
         require(tree.name == "term")
         tree as Branch
         require(tree.parts.size == 2)
-        return number(tree.parts[0])
+        val factor = factor(tree.parts[0])
+        val factorTail = factorTail(tree.parts[1])
+        val expression = combineFactorWithFactorTail(factor, factorTail)
+        return expression
     }
 
+    private fun factor(tree: Tree<Token>): Expression {
+        return when (tree.name) {
+            "number" -> number(tree)
+            "expression-in-parenthesis" -> expressionInParenthesis(tree)
+            else -> throw RuntimeException("'${tree.name}' not supported here")
+        }
+    }
 
-    private fun termPart(tree: Tree<Token>): TermPart {
+    private fun factorTail(tree: Tree<Token>): List<OperatorExpression> {
+        require(tree.name == "factor-tail")
+        tree as Branch
+        return tree.parts.map(::factorPart)
+    }
+
+    private fun combineFactorWithFactorTail(factor: Expression, factorTail: List<OperatorExpression>): Expression {
+        var current = factor
+        factorTail.forEach { operatorExpression ->
+            current = when (operatorExpression.operator) {
+                Token.Times -> Expression.Times(current, operatorExpression.expression)
+                Token.Divide -> Expression.Divide(current, operatorExpression.expression)
+                else -> throw RuntimeException("Operator ${operatorExpression.operator} is not supported")
+            }
+        }
+        return current
+    }
+
+    private fun termPart(tree: Tree<Token>): OperatorExpression {
         require(tree.name == "term-part")
         tree as Branch
         require(tree.parts.size == 2)
         val operator = operator(tree.parts[0])
         val term = term(tree.parts[1])
-        return TermPart(operator, term)
+        return OperatorExpression(operator, term)
     }
 
-    private fun termTail(tree: Tree<Token>): List<TermPart> {
+    private fun factorPart(tree: Tree<Token>): OperatorExpression {
+        require(tree.name == "factor-part")
+        tree as Branch
+        require(tree.parts.size == 2)
+        val operator = operator(tree.parts[0])
+        val factor = factor(tree.parts[1])
+        return OperatorExpression(operator, factor)
+    }
+
+    private fun termTail(tree: Tree<Token>): List<OperatorExpression> {
         require(tree.name == "term-tail")
         tree as Branch
         return tree.parts.map(::termPart)
@@ -64,6 +101,15 @@ object CalculatorExpressionAssemblers {
         val token = tree.value
         token as Token.Number
         return Expression.Number(token.value)
+    }
+
+    private fun expressionInParenthesis(tree: Tree<Token>): Expression {
+        tree as Branch
+        require(tree.parts.size == 3)
+        require(tree.parts[0].name == "open-paren")
+        require(tree.parts[1].name == "expression")
+        require(tree.parts[2].name == "close-paren")
+        return expression(tree.parts[1])
     }
 
     val assemble: (String, Tree<Token>) -> Expression = { name: String, tree: Tree<Token> ->

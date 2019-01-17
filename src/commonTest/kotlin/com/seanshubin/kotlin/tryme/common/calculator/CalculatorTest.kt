@@ -75,4 +75,52 @@ class CalculatorTest {
         // then
         assertEquals(3, actual)
     }
+
+    @Test
+    fun subtractionLeftToRight() {
+        // given
+        val input = "3 - 2 - 1"
+
+        // when
+        val actual = CalculatorExpressionAssemblers.eval(input)
+
+        // then
+        assertEquals(0, actual)
+    }
+
+    @Test
+    fun divisionLeftToRight() {
+        // given
+        val input = "48 / 6 / 2"
+
+        // when
+        val actual = CalculatorExpressionAssemblers.eval(input)
+
+        // then
+        assertEquals(4, actual)
+    }
+
+    @Test
+    fun subtractionParenthesis() {
+        // given
+        val input = "3 - (2 - 1)"
+
+        // when
+        val actual = CalculatorExpressionAssemblers.eval(input)
+
+        // then
+        assertEquals(2, actual)
+    }
+
+    @Test
+    fun divisionParenthesis() {
+        // given
+        val input = "48 / (6 / 2)"
+
+        // when
+        val actual = CalculatorExpressionAssemblers.eval(input)
+
+        // then
+        assertEquals(16, actual)
+    }
 }
