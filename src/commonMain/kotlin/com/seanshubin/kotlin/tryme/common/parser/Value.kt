@@ -1,11 +1,10 @@
-package com.seanshubin.kotlin.tryme.common.matcher
+package com.seanshubin.kotlin.tryme.common.parser
 
 import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
-import kotlin.reflect.KClass
 
-class ValueOfType<T : Any, U : T>(override val name: String, private val expected: KClass<U>) : Matcher<T> {
+class Value<T>(override val name: String, private val expected: T) : Matcher<T> {
     override fun checkMatch(cursor: RowColCursor<T>): Result<T> {
-        return if (cursor.value::class == expected) {
+        return if (cursor.valueIs(expected)) {
             Success(name, Leaf(name, cursor.value), cursor.next())
         } else {
             Failure("Expected '$expected'", cursor)

@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common.matcher
+package com.seanshubin.kotlin.tryme.common.parser
 
 import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
 

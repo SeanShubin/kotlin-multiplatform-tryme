@@ -1,7 +1,7 @@
 package com.seanshubin.kotlin.tryme.common.calculator
 
-import com.seanshubin.kotlin.tryme.common.assembler.AssemblingCursor
-import com.seanshubin.kotlin.tryme.common.matcher.Tree
+import com.seanshubin.kotlin.tryme.common.parser.AssemblingCursor
+import com.seanshubin.kotlin.tryme.common.parser.Tree
 
 object CalculatorTokenAssemblers {
     private val number = { tree: Tree<Char> ->

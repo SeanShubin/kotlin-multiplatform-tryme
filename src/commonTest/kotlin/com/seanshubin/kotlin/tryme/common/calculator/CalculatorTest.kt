@@ -123,4 +123,16 @@ class CalculatorTest {
         // then
         assertEquals(16, actual)
     }
+
+    @Test
+    fun multiplyBeforeAdd() {
+        // given
+        val input = "1 + 2 * 3"
+
+        // when
+        val actual = CalculatorExpressionAssemblers.eval(input)
+
+        // then
+        assertEquals(7, actual)
+    }
 }
