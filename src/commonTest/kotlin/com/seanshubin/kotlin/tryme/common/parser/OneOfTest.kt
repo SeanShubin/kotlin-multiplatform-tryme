@@ -28,4 +28,52 @@ class OneOfTest {
         // then
         assertEquals(expected, actual)
     }
+
+    @Test
+    fun checkMatchSecond() {
+        // given
+        val name = "name"
+        val fooMatcher: Matcher<String> = Value("foo-rule", "foo")
+        val barMatcher: Matcher<String> = Value("bar-rule", "bar")
+        val map = mapOf(Pair("foo", fooMatcher), Pair("bar", barMatcher))
+
+        val lookup: (String) -> Matcher<String> = { name ->
+            map[name]!!
+        }
+        val oneOf = OneOf(name, lookup, "foo", "bar")
+
+        val iterator = listOf("bar").iterator()
+        val cursor = IteratorCursor.create(iterator)
+        val expected = Success("bar-rule", Leaf("bar-rule", "bar"), cursor.next())
+
+        // when
+        val actual = oneOf.checkMatch(cursor)
+
+        // then
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun checkNoMatch() {
+        // given
+        val name = "name"
+        val fooMatcher: Matcher<String> = Value("foo-rule", "foo")
+        val barMatcher: Matcher<String> = Value("bar-rule", "bar")
+        val map = mapOf(Pair("foo", fooMatcher), Pair("bar", barMatcher))
+
+        val lookup: (String) -> Matcher<String> = { name ->
+            map[name]!!
+        }
+        val oneOf = OneOf(name, lookup, "foo", "bar")
+
+        val iterator = listOf("baz").iterator()
+        val cursor = IteratorCursor.create(iterator)
+        val expected = "[iterator] Expected one of: foo, bar"
+
+        // when
+        val actual = oneOf.checkMatch(cursor).toString()
+
+        // then
+        assertEquals(expected, actual)
+    }
 }
