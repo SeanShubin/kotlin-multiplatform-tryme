@@ -1,9 +1,9 @@
 package com.seanshubin.kotlin.tryme.common.parser
 
-import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
+import com.seanshubin.kotlin.tryme.common.cursor.Cursor
 
 class OneOfValue<T>(override val name: String, private vararg val values: T) : Matcher<T> {
-    override fun checkMatch(cursor: RowColCursor<T>): Result<T> {
+    override fun checkMatch(cursor: Cursor<T>): Result<T> {
         return when {
             cursor.isEnd -> {
                 Failure("Expected one of ${values.joinToString(", ")}, got end of input", cursor)

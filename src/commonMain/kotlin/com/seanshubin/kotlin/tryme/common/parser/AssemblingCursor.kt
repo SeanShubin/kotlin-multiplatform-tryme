@@ -1,12 +1,11 @@
 package com.seanshubin.kotlin.tryme.common.parser
 
-import com.seanshubin.kotlin.tryme.common.cursor.RowCol
-import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
+import com.seanshubin.kotlin.tryme.common.cursor.Cursor
 
 class AssemblingCursor<FromType, ToType>(
-    val cursor: RowColCursor<Matched<FromType>>,
+    val cursor: Cursor<Matched<FromType>>,
     val assemble: (String, Tree<FromType>) -> ToType
-) : RowColCursor<ToType> {
+) : Cursor<ToType> {
     private var lazyValue: ToType? = null
     private var lazyNext: AssemblingCursor<FromType, ToType>? = null
     override val isEnd: Boolean
@@ -22,8 +21,9 @@ class AssemblingCursor<FromType, ToType>(
         return lazyNext!!
     }
 
-    override fun backingCursor(): AssemblingCursor<FromType, ToType> = this
-    override val detail: RowCol get() = cursor.detail
+    override val summary: String get() = cursor.summary
+    override val backingCursor: Cursor<ToType> get() = this
+
     private fun reifyLazy() {
         if (lazyValue == null) {
             lazyValue = assemble(cursor.value.name, cursor.value.tree)

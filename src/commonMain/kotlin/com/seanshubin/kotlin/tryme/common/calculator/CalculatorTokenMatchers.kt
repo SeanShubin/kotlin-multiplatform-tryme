@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.calculator
 
-import com.seanshubin.kotlin.tryme.common.cursor.RowColCursorImpl
+import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
 import com.seanshubin.kotlin.tryme.common.parser.*
 
 object CalculatorTokenMatchers {
@@ -34,7 +34,7 @@ object CalculatorTokenMatchers {
         matcherMap[name] ?: throw RuntimeException("matcher named '$name' not found")
 
     fun cursor(s: String): MatchingCursor<Char> {
-        val charCursor = RowColCursorImpl.create(s)
+        val charCursor = RowColCursor.create(s)
         return MatchingCursor(charCursor, CalculatorTokenMatchers["token"])
     }
 }

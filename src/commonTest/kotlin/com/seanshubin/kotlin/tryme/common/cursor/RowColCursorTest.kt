@@ -7,7 +7,7 @@ class RowColCursorTest {
     @Test
     fun value() {
         val s = "a\nc\re\r\ng"
-        val cursorA = RowColCursorImpl.create(s)
+        val cursorA = RowColCursor.create(s)
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorD = cursorC.next()
@@ -26,7 +26,7 @@ class RowColCursorTest {
     @Test
     fun detail() {
         val s = "a\nc\re\r\ng"
-        val cursorA = RowColCursorImpl.create(s)
+        val cursorA = RowColCursor.create(s)
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorD = cursorC.next()
@@ -34,21 +34,13 @@ class RowColCursorTest {
         val cursorF = cursorE.next()
         val cursorG = cursorF.next()
         val cursorEnd = cursorG.next()
-        assertEquals(0, cursorA.detail.row)
-        assertEquals(0, cursorA.detail.col)
-        assertEquals(0, cursorB.detail.row)
-        assertEquals(1, cursorB.detail.col)
-        assertEquals(1, cursorC.detail.row)
-        assertEquals(0, cursorC.detail.col)
-        assertEquals(1, cursorD.detail.row)
-        assertEquals(1, cursorD.detail.col)
-        assertEquals(2, cursorE.detail.row)
-        assertEquals(0, cursorE.detail.col)
-        assertEquals(2, cursorF.detail.row)
-        assertEquals(1, cursorF.detail.col)
-        assertEquals(3, cursorG.detail.row)
-        assertEquals(0, cursorG.detail.col)
-        assertEquals(3, cursorEnd.detail.row)
-        assertEquals(1, cursorEnd.detail.col)
+        assertEquals("[1:1]", cursorA.summary)
+        assertEquals("[1:2]", cursorB.summary)
+        assertEquals("[2:1]", cursorC.summary)
+        assertEquals("[2:2]", cursorD.summary)
+        assertEquals("[3:1]", cursorE.summary)
+        assertEquals("[3:2]", cursorF.summary)
+        assertEquals("[4:1]", cursorG.summary)
+        assertEquals("[4:2]", cursorEnd.summary)
     }
 }

@@ -1,6 +1,7 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
 data class NormalizeNewlineCursor constructor(val cursor: Cursor<Char>) : Cursor<Char> {
+    override val summary: String get() = cursor.summary
     override val isEnd: Boolean get() = cursor.isEnd
     override val value: Char get() = if (cursor.valueIs('\r')) '\n' else cursor.value
     override fun next(): NormalizeNewlineCursor {
@@ -17,7 +18,7 @@ data class NormalizeNewlineCursor constructor(val cursor: Cursor<Char>) : Cursor
         }
     }
 
-    override fun backingCursor(): Cursor<Char> = cursor.backingCursor()
+    override val backingCursor: Cursor<Char> get() = cursor.backingCursor
 
     companion object {
         fun create(iterator: Iterator<Char>): NormalizeNewlineCursor =

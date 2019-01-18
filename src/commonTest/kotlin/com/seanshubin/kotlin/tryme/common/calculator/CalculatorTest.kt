@@ -1,5 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.calculator
 
+import com.seanshubin.kotlin.tryme.common.parser.MatchException
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -134,5 +135,25 @@ class CalculatorTest {
 
         // then
         assertEquals(7, actual)
+    }
+
+    @Test
+    fun unsupportedOperator() {
+        // given
+        val input = "1 + 2 % 3 * 4"
+
+        // when
+        val exception = try {
+            CalculatorExpressionAssemblers.eval(input)
+            throw RuntimeException("unexpected")
+        } catch (ex: MatchException) {
+            ex
+        }
+
+        // then
+        assertEquals(
+            "[1:7] Expected one of: number, plus, minus, times, divide, open-paren, close-paren, whitespace-block",
+            exception.message
+        )
     }
 }

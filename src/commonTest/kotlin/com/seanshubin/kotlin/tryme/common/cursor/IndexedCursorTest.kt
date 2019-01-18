@@ -28,10 +28,10 @@ class IndexedCursorTest {
         val cursorB = cursorA.next()
         val cursorC = cursorB.next()
         val cursorEnd = cursorC.next()
-        assertEquals(0, cursorA.detail)
-        assertEquals(1, cursorB.detail)
-        assertEquals(2, cursorC.detail)
-        assertEquals(3, cursorEnd.detail)
+        assertEquals("[1]", cursorA.summary)
+        assertEquals("[2]", cursorB.summary)
+        assertEquals("[3]", cursorC.summary)
+        assertEquals("[4]", cursorEnd.summary)
     }
 
     @Test

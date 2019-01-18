@@ -1,13 +1,13 @@
 package com.seanshubin.kotlin.tryme.common.parser
 
-import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
+import com.seanshubin.kotlin.tryme.common.cursor.Cursor
 
 class OneOf<T>(
     override val name: String,
     private val lookup: (String) -> Matcher<T>,
     private vararg val matcherNames: String
 ) : Matcher<T> {
-    override fun checkMatch(cursor: RowColCursor<T>): Result<T> {
+    override fun checkMatch(cursor: Cursor<T>): Result<T> {
         for (matcherName in matcherNames) {
             val matcher = lookup(matcherName)
             val result = matcher.checkMatch(cursor)

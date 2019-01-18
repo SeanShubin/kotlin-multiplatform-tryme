@@ -126,7 +126,7 @@ object CalculatorExpressionAssemblers {
         val cursor = cursor(s)
         val expression = cursor.value
         if (!cursor.next().isEnd) {
-            throw RuntimeException("Expected end at ${cursor.next().detail}")
+            throw RuntimeException("Expected end at ${cursor.next().summary}")
         }
         return expression
     }

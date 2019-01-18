@@ -1,21 +1,21 @@
 package com.seanshubin.kotlin.tryme.common.cursor
 
 class FilterValueCursor<ElementType>(
-    originalBackingCursor: RowColCursor<ElementType>,
+    originalBackingCursor: Cursor<ElementType>,
     private val valueToSkip: ElementType
 ) :
-    RowColCursor<ElementType> {
-    private var backingCursor = originalBackingCursor
+    Cursor<ElementType> {
+    private var mutableBackingCursor = originalBackingCursor
+    override val backingCursor: Cursor<ElementType> get() = mutableBackingCursor
 
     init {
-        while (backingCursor.valueIs(valueToSkip)) {
-            backingCursor = backingCursor().next()
+        while (mutableBackingCursor.valueIs(valueToSkip)) {
+            mutableBackingCursor = mutableBackingCursor.next()
         }
     }
 
+    override val summary: String get() = backingCursor.summary
     override val isEnd: Boolean get() = backingCursor.isEnd
     override val value: ElementType get() = backingCursor.value
     override fun next(): FilterValueCursor<ElementType> = FilterValueCursor(backingCursor.next(), valueToSkip)
-    override fun backingCursor(): RowColCursor<ElementType> = backingCursor
-    override val detail: RowCol get() = backingCursor.detail
 }

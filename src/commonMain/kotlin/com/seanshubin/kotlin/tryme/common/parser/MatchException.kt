@@ -1,3 +1,3 @@
 package com.seanshubin.kotlin.tryme.common.parser
 
-class MatchException(result: Failure<*>) : RuntimeException("${result.errorAtPosition.detail} ${result.message}")
+class MatchException(result: Failure<*>) : RuntimeException("${result.errorAtPosition.summary} ${result.message}")
