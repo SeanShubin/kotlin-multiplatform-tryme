@@ -5,8 +5,6 @@ import com.seanshubin.kotlin.tryme.common.parser.Branch
 import com.seanshubin.kotlin.tryme.common.parser.Leaf
 import com.seanshubin.kotlin.tryme.common.parser.Tree
 
-data class OperatorExpression(val operator: Token, val expression: Expression)
-
 object CalculatorExpressionAssemblers {
     private fun expression(tree: Tree<Token>): Expression {
         require(tree.name == "expression")
