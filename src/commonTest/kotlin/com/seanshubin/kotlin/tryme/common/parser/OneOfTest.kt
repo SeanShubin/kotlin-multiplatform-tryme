@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.parser
 
-import com.seanshubin.kotlin.tryme.common.cursor.IteratorCursor
+import com.seanshubin.kotlin.tryme.common.cursor.IndexedCursor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -19,7 +19,7 @@ class OneOfTest {
         val oneOf = OneOf(name, lookup, "foo", "bar")
 
         val iterator = listOf("foo").iterator()
-        val cursor = IteratorCursor.create(iterator)
+        val cursor = IndexedCursor.create(iterator)
         val expected = Success("foo-rule", Leaf("foo-rule", "foo"), cursor.next())
 
         // when
@@ -43,7 +43,7 @@ class OneOfTest {
         val oneOf = OneOf(name, lookup, "foo", "bar")
 
         val iterator = listOf("bar").iterator()
-        val cursor = IteratorCursor.create(iterator)
+        val cursor = IndexedCursor.create(iterator)
         val expected = Success("bar-rule", Leaf("bar-rule", "bar"), cursor.next())
 
         // when
@@ -67,7 +67,7 @@ class OneOfTest {
         val oneOf = OneOf(name, lookup, "foo", "bar")
 
         val iterator = listOf("baz").iterator()
-        val cursor = IteratorCursor.create(iterator)
+        val cursor = IndexedCursor.create(iterator)
         val expected = "[iterator] Expected one of: foo, bar"
 
         // when

@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.parser
 
-import com.seanshubin.kotlin.tryme.common.cursor.IteratorCursor
+import com.seanshubin.kotlin.tryme.common.cursor.IndexedCursor
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -19,7 +19,7 @@ class SequenceTest {
         val sequence = Sequence(name, lookup, "foo", "bar")
 
         val iterator = listOf("foo", "bar").iterator()
-        val cursor = IteratorCursor.create(iterator)
+        val cursor = IndexedCursor.create(iterator)
         val fooLeaf = Leaf("foo-rule", "foo")
         val barLeaf = Leaf("bar-rule", "bar")
         val leaves = listOf(fooLeaf, barLeaf)
@@ -46,7 +46,7 @@ class SequenceTest {
         val sequence = Sequence(name, lookup, "foo", "bar")
 
         val iterator = listOf("foo", "baz").iterator()
-        val cursor = IteratorCursor.create(iterator)
+        val cursor = IndexedCursor.create(iterator)
 
         // when
         val actual = sequence.checkMatch(cursor).toString()
