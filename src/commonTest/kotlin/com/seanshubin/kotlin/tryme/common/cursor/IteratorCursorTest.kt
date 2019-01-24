@@ -117,4 +117,18 @@ class IteratorCursorTest {
             assertEquals(ex.message, "Unable to navigate from begin to end cursor")
         }
     }
+
+    @Test
+    fun sameReference() {
+        val s = "abc"
+        val cursorA = IteratorCursor.create(s)
+        val cursorB1 = cursorA.next()
+        val cursorB2 = cursorA.next()
+        val cursorC1 = cursorB1.next()
+        val cursorC2 = cursorB2.next()
+
+        assertSame(cursorB1, cursorB2)
+        assertSame(cursorC1, cursorC2)
+    }
+
 }

@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.calculator
 
-import com.seanshubin.kotlin.tryme.common.cursor.FilterValueCursor
+import com.seanshubin.kotlin.tryme.common.cursor.FilteringCursor
 import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
 import com.seanshubin.kotlin.tryme.common.parser.AssemblingCursor
 import com.seanshubin.kotlin.tryme.common.parser.MatchingCursor
@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
         tokenMatchCursor,
         CalculatorTokenAssemblers.assemble
     )
-    val filterCursor = FilterValueCursor(tokenAssemblingCursor, Token.Whitespace)
+    val filterCursor = FilteringCursor(tokenAssemblingCursor, Token.Whitespace)
     val expressionMatchCursor = MatchingCursor(filterCursor, CalculatorExpressionMatchers["expression"])
     var cursor = expressionMatchCursor
     while (!cursor.isEnd) {

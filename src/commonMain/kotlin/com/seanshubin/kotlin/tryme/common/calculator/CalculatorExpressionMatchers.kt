@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.calculator
 
-import com.seanshubin.kotlin.tryme.common.cursor.FilterValueCursor
+import com.seanshubin.kotlin.tryme.common.cursor.FilteringCursor
 import com.seanshubin.kotlin.tryme.common.parser.*
 
 object CalculatorExpressionMatchers {
@@ -35,7 +35,7 @@ object CalculatorExpressionMatchers {
 
     fun cursor(s: String): MatchingCursor<Token> {
         val tokenAssemblingCursor = CalculatorTokenAssemblers.cursor(s)
-        val filterCursor = FilterValueCursor(tokenAssemblingCursor, Token.Whitespace)
+        val filterCursor = FilteringCursor(tokenAssemblingCursor, Token.Whitespace)
         return MatchingCursor(filterCursor, CalculatorExpressionMatchers["expression"])
     }
 }

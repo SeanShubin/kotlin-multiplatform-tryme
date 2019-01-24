@@ -2,6 +2,7 @@ package com.seanshubin.kotlin.tryme.common.cursor
 
 import kotlin.test.Test
 import kotlin.test.assertEquals
+import kotlin.test.assertSame
 
 class RowColCursorTest {
     @Test
@@ -42,5 +43,18 @@ class RowColCursorTest {
         assertEquals("[3:2]", cursorF.summary)
         assertEquals("[4:1]", cursorG.summary)
         assertEquals("[4:2]", cursorEnd.summary)
+    }
+
+    @Test
+    fun sameReference() {
+        val s = "abc"
+        val cursorA = RowColCursor.create(s)
+        val cursorB1 = cursorA.next()
+        val cursorB2 = cursorA.next()
+        val cursorC1 = cursorB1.next()
+        val cursorC2 = cursorB2.next()
+
+        assertSame(cursorB1, cursorB2)
+        assertSame(cursorC1, cursorC2)
     }
 }

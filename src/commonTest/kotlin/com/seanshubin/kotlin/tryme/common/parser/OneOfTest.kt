@@ -68,7 +68,7 @@ class OneOfTest {
 
         val iterator = listOf("baz").iterator()
         val cursor = IndexedCursor.create(iterator)
-        val expected = "[iterator] Expected one of: foo, bar"
+        val expected = "[1] Expected one of: foo, bar"
 
         // when
         val actual = oneOf.checkMatch(cursor).toString()

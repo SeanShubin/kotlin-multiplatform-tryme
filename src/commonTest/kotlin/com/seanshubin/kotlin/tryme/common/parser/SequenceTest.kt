@@ -52,6 +52,6 @@ class SequenceTest {
         val actual = sequence.checkMatch(cursor).toString()
 
         // then
-        assertEquals("[iterator] Expected 'bar'", actual)
+        assertEquals("[2] Expected 'bar'", actual)
     }
 }

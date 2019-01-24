@@ -76,7 +76,6 @@ class IndexedCursorTest {
         assertEquals('b', cursorB2.value)
         assertEquals('c', cursorC1.value)
         assertEquals('c', cursorC2.value)
-
     }
 
     @Test
@@ -95,5 +94,18 @@ class IndexedCursorTest {
 
         // then
         assertEquals(expected, actual)
+    }
+
+    @Test
+    fun sameReference() {
+        val s = "abc"
+        val cursorA = IndexedCursor.create(s)
+        val cursorB1 = cursorA.next()
+        val cursorB2 = cursorA.next()
+        val cursorC1 = cursorB1.next()
+        val cursorC2 = cursorB2.next()
+
+        assertSame(cursorB1, cursorB2)
+        assertSame(cursorC1, cursorC2)
     }
 }

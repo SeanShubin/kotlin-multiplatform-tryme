@@ -33,6 +33,6 @@ class ValueTest {
         val actual = valueMatcher.checkMatch(cursor).toString()
 
         // then
-        assertEquals("[iterator] Expected 'foo'", actual)
+        assertEquals("[1] Expected 'foo'", actual)
     }
 }
