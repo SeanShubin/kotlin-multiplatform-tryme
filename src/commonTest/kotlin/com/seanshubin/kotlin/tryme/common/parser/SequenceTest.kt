@@ -8,7 +8,7 @@ class SequenceTest {
     @Test
     fun checkMatchAll() {
         // given
-        val name = "sequence-rule"
+        val ruleName = "sequence-rule"
         val fooMatcher: Matcher<String> = Value("foo-rule", "foo")
         val barMatcher: Matcher<String> = Value("bar-rule", "bar")
         val map = mapOf(Pair("foo", fooMatcher), Pair("bar", barMatcher))
@@ -16,7 +16,7 @@ class SequenceTest {
         val lookup: (String) -> Matcher<String> = { name ->
             map[name]!!
         }
-        val sequence = Sequence(name, lookup, "foo", "bar")
+        val sequence = Sequence(ruleName, lookup, "foo", "bar")
 
         val iterator = listOf("foo", "bar").iterator()
         val cursor = IndexedCursor.create(iterator)
@@ -35,7 +35,7 @@ class SequenceTest {
     @Test
     fun checkMatchFailOnSecond() {
         // given
-        val name = "sequence-rule"
+        val ruleName = "sequence-rule"
         val fooMatcher: Matcher<String> = Value("foo-rule", "foo")
         val barMatcher: Matcher<String> = Value("bar-rule", "bar")
         val map = mapOf(Pair("foo", fooMatcher), Pair("bar", barMatcher))
@@ -43,7 +43,7 @@ class SequenceTest {
         val lookup: (String) -> Matcher<String> = { name ->
             map[name]!!
         }
-        val sequence = Sequence(name, lookup, "foo", "bar")
+        val sequence = Sequence(ruleName, lookup, "foo", "bar")
 
         val iterator = listOf("foo", "baz").iterator()
         val cursor = IndexedCursor.create(iterator)

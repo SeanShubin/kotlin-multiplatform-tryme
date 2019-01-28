@@ -6,7 +6,7 @@ import java.math.BigInteger
 
 fun main(args: Array<String>) {
     val timer = TimerFactory.createDefault()
-    val (duration, result) = timer.durationAndResult {
+    val (duration, _) = timer.durationAndResult {
         (1000..10000 step 1000).forEach {
             val longValue = it.toLong()
             val bigIntegerValue = BigInteger.valueOf(longValue)

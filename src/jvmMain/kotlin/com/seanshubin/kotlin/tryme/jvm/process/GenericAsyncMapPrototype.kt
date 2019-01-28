@@ -1,8 +1,11 @@
 package com.seanshubin.kotlin.tryme.jvm.process
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+
 fun squared(x: Int): Int = x * x
 
-fun main(args: Array<String>) {
+@ExperimentalCoroutinesApi
+fun main() {
     val inputs: List<Int> = (1..3).toList()
     val outputsCoroutine = inputs.mapAsyncCoroutine(::squared)
     outputsCoroutine.forEach(::println)

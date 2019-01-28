@@ -18,7 +18,6 @@ class MatchingCursor<T>(val cursor: Cursor<T>, val matcher: Matcher<T>) : Cursor
     }
 
     override val summary: String get() = cursor.summary
-    override val backingCursor: Cursor<Matched<T>> get() = this
 
     private fun reifyLazy() {
         if (lazyValue == null) {

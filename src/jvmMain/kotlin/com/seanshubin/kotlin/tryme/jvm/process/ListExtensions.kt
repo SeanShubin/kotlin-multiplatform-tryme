@@ -1,5 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.process
 
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.runBlocking
@@ -8,6 +9,7 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
 
+@ExperimentalCoroutinesApi
 fun <T, U> List<T>.mapAsyncCoroutine(f: (T) -> U): List<U> {
     val jobs = this.map {
         GlobalScope.async { f(it) }

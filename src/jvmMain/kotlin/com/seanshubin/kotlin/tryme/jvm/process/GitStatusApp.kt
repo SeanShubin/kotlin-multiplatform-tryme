@@ -104,7 +104,7 @@ fun isNoteworthy(result: DirectoryResult): Boolean = result.hasUnsuccessfulComma
 
 fun main(args: Array<String>) {
     val timer = TimerFactory.createDefault()
-    val (duration, result) = timer.durationAndResult {
+    val (duration, _) = timer.durationAndResult {
         val basePath: Path = Paths.get(args[0])
         val directories = getDirectories(basePath)
         val commands = getCommands()

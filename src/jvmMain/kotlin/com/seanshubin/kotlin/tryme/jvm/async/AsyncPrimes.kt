@@ -9,7 +9,7 @@ import java.math.BigInteger
 
 fun main(args: Array<String>) {
     val timer = TimerFactory.createDefault()
-    val (duration, result) = timer.durationAndResult {
+    val (duration, _) = timer.durationAndResult {
         val jobs = (1000..10000 step 1000).map {
             GlobalScope.launch {
                 val longValue = it.toLong()

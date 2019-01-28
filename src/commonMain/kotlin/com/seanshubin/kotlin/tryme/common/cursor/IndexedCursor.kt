@@ -13,7 +13,6 @@ class IndexedCursor<ElementType> private constructor(
             reifyLazy()
             return lazyValue!!
         }
-    override val backingCursor: Cursor<ElementType> get() = cursor.backingCursor
 
     override fun next(): IndexedCursor<ElementType> {
         reifyLazy()

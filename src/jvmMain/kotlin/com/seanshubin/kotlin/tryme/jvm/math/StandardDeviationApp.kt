@@ -1,8 +1,8 @@
 package com.seanshubin.kotlin.tryme.jvm.math
 
 import java.math.BigDecimal
-import java.math.BigDecimal.ROUND_HALF_UP
 import java.math.BigDecimal.ZERO
+import java.math.RoundingMode
 
 val TWO: BigDecimal = BigDecimal.valueOf(2)
 
@@ -56,9 +56,9 @@ private fun squareRoot(x: BigDecimal, scale: Int): BigDecimal {
     }
     while (lastComputed != currentEstimate) {
         lastComputed = currentEstimate
-        currentEstimate = x.divide(lastComputed, scale, ROUND_HALF_UP)
+        currentEstimate = x.divide(lastComputed, scale, RoundingMode.HALF_UP)
         currentEstimate = currentEstimate.add(lastComputed)
-        currentEstimate = currentEstimate.divide(TWO, scale, ROUND_HALF_UP)
+        currentEstimate = currentEstimate.divide(TWO, scale, RoundingMode.HALF_UP)
     }
     return currentEstimate
 }

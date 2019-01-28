@@ -15,8 +15,6 @@ data class NormalizeNewlineCursor constructor(val cursor: Cursor<Char>) : Cursor
         return lazyNext!!
     }
 
-    override val backingCursor: Cursor<Char> get() = cursor.backingCursor
-
     private fun reifyLazy() {
         if (lazyValue == null) {
             lazyValue = if (cursor.valueIs('\r')) '\n' else cursor.value

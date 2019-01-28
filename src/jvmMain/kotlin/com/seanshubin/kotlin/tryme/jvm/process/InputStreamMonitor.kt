@@ -8,7 +8,7 @@ import java.io.ByteArrayOutputStream
 import java.io.InputStream
 import java.nio.charset.StandardCharsets
 
-class InputStreamMonitor(name: String, inputStream: InputStream) {
+class InputStreamMonitor(inputStream: InputStream) {
     private val byteArrayOutputStream = ByteArrayOutputStream()
     private val job: Job
 

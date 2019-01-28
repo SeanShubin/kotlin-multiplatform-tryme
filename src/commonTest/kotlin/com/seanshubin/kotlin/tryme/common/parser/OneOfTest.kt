@@ -8,7 +8,7 @@ class OneOfTest {
     @Test
     fun checkMatchFirst() {
         // given
-        val name = "name"
+        val ruleName = "name"
         val fooMatcher: Matcher<String> = Value("foo-rule", "foo")
         val barMatcher: Matcher<String> = Value("bar-rule", "bar")
         val map = mapOf(Pair("foo", fooMatcher), Pair("bar", barMatcher))
@@ -16,7 +16,7 @@ class OneOfTest {
         val lookup: (String) -> Matcher<String> = { name ->
             map[name]!!
         }
-        val oneOf = OneOf(name, lookup, "foo", "bar")
+        val oneOf = OneOf(ruleName, lookup, "foo", "bar")
 
         val iterator = listOf("foo").iterator()
         val cursor = IndexedCursor.create(iterator)
@@ -32,7 +32,7 @@ class OneOfTest {
     @Test
     fun checkMatchSecond() {
         // given
-        val name = "name"
+        val ruleName = "name"
         val fooMatcher: Matcher<String> = Value("foo-rule", "foo")
         val barMatcher: Matcher<String> = Value("bar-rule", "bar")
         val map = mapOf(Pair("foo", fooMatcher), Pair("bar", barMatcher))
@@ -40,7 +40,7 @@ class OneOfTest {
         val lookup: (String) -> Matcher<String> = { name ->
             map[name]!!
         }
-        val oneOf = OneOf(name, lookup, "foo", "bar")
+        val oneOf = OneOf(ruleName, lookup, "foo", "bar")
 
         val iterator = listOf("bar").iterator()
         val cursor = IndexedCursor.create(iterator)
@@ -56,7 +56,7 @@ class OneOfTest {
     @Test
     fun checkNoMatch() {
         // given
-        val name = "name"
+        val ruleName = "name"
         val fooMatcher: Matcher<String> = Value("foo-rule", "foo")
         val barMatcher: Matcher<String> = Value("bar-rule", "bar")
         val map = mapOf(Pair("foo", fooMatcher), Pair("bar", barMatcher))
@@ -64,7 +64,7 @@ class OneOfTest {
         val lookup: (String) -> Matcher<String> = { name ->
             map[name]!!
         }
-        val oneOf = OneOf(name, lookup, "foo", "bar")
+        val oneOf = OneOf(ruleName, lookup, "foo", "bar")
 
         val iterator = listOf("baz").iterator()
         val cursor = IndexedCursor.create(iterator)

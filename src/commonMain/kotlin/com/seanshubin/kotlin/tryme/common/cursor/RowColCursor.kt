@@ -9,7 +9,6 @@ data class RowColCursor<ElementType> constructor(
     override val isEnd: Boolean get() = cursor.isEnd
     override val value: ElementType get() = cursor.value
     override val summary: String get() = rowCol.toString()
-    override val backingCursor: Cursor<ElementType> get() = cursor.backingCursor
 
     override fun next(): RowColCursor<ElementType> {
         if (nextCursor == null) {

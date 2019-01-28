@@ -8,7 +8,6 @@ class FilteringCursor<ElementType>(
     private var lazyValue: ElementType? = null
     private var lazyNext: FilteringCursor<ElementType>? = null
     private var mutableBackingCursor = originalBackingCursor
-    override val backingCursor: Cursor<ElementType> get() = mutableBackingCursor
 
     init {
         while (mutableBackingCursor.valueIs(valueToSkip)) {
@@ -16,8 +15,8 @@ class FilteringCursor<ElementType>(
         }
     }
 
-    override val summary: String get() = backingCursor.summary
-    override val isEnd: Boolean get() = backingCursor.isEnd
+    override val summary: String get() = mutableBackingCursor.summary
+    override val isEnd: Boolean get() = mutableBackingCursor.isEnd
     override val value: ElementType
         get() {
             reifyLazy()
@@ -31,8 +30,8 @@ class FilteringCursor<ElementType>(
 
     private fun reifyLazy() {
         if (lazyValue == null) {
-            lazyValue = backingCursor.value
-            lazyNext = FilteringCursor(backingCursor.next(), valueToSkip)
+            lazyValue = mutableBackingCursor.value
+            lazyNext = FilteringCursor(mutableBackingCursor.next(), valueToSkip)
         }
     }
 

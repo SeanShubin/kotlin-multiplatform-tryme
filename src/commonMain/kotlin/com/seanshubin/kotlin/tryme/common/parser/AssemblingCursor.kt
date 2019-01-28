@@ -22,7 +22,6 @@ class AssemblingCursor<FromType, ToType>(
     }
 
     override val summary: String get() = cursor.summary
-    override val backingCursor: Cursor<ToType> get() = this
 
     private fun reifyLazy() {
         if (lazyValue == null) {
