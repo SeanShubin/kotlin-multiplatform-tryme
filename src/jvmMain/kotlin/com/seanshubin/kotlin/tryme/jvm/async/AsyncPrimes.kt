@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.async
 
-import com.seanshubin.kotlin.tryme.common.format.MillisecondsFormat
+import com.seanshubin.kotlin.tryme.common.format.DurationFormat
 import com.seanshubin.kotlin.tryme.jvm.timer.TimerFactory
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -22,6 +22,6 @@ fun main(args: Array<String>) {
             jobs.forEach { it.join() }
         }
     }
-    val formattedTime = MillisecondsFormat.format(duration.toMillis())
+    val formattedTime = DurationFormat.milliseconds.format(duration.toMillis())
     println(formattedTime) //4 seconds 659 milliseconds
 }

@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.async
 
-import com.seanshubin.kotlin.tryme.common.format.MillisecondsFormat
+import com.seanshubin.kotlin.tryme.common.format.DurationFormat
 import com.seanshubin.kotlin.tryme.jvm.timer.TimerFactory
 import java.math.BigInteger
 
@@ -14,6 +14,6 @@ fun main(args: Array<String>) {
             println(prime)
         }
     }
-    val formattedTime = MillisecondsFormat.format(duration.toMillis())
+    val formattedTime = DurationFormat.milliseconds.format(duration.toMillis())
     println(formattedTime) //9 seconds 42 milliseconds
 }

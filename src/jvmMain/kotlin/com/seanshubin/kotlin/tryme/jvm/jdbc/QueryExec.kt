@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.jvm.jdbc
 
-import com.seanshubin.kotlin.tryme.common.format.MillisecondsFormat
+import com.seanshubin.kotlin.tryme.common.format.DurationFormat
 import com.seanshubin.kotlin.tryme.jvm.timer.Timer
 
 
@@ -19,7 +19,7 @@ class QueryExec(
                 ResultSetUtil.toTable(resultSet)
             }
         }
-        val millisecondsString = MillisecondsFormat.format(duration.toMillis())
+        val millisecondsString = DurationFormat.milliseconds.format(duration.toMillis())
         log(query)
         log(millisecondsString)
         logTable(table)
