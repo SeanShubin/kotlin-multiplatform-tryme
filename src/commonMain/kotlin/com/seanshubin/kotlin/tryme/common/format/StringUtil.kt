@@ -39,6 +39,17 @@ object StringUtil {
         if (this.length > max) "<${this.length} characters, showing first $max> ${this.substring(0, max)}"
         else this
 
+    fun hex(byteArray: ByteArray): String = byteArray.joinToString("") { hex(it) }
+
+    fun hex(byte: Byte): String {
+        val digits = "0123456789ABCDEF"
+        val lowByte = byte.toUByte().toInt() and 15
+        val highByte = byte.toUByte().toInt() shr 4
+        val lowDigit = digits[lowByte]
+        val highDigit = digits[highByte]
+        return "" + highDigit + lowDigit
+    }
+
     private fun escapeCharToString(target: Char): String =
         when (target) {
             '\n' -> "\\n"

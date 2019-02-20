@@ -41,4 +41,17 @@ class StringUtilTest {
         assertEquals("aaaaaaaaaa", "a".repeat(10).truncate(10))
         assertEquals("<100 characters, showing first 10> aaaaaaaaaa", "a".repeat(100).truncate(10))
     }
+
+    @Test
+    fun hex() {
+        // given
+        val byteArray: ByteArray = listOf(0, 1, 126, 127, 128, 255).map { it.toByte() }.toByteArray()
+        val expected = "00017E7F80FF"
+
+        // when
+        val actual = StringUtil.hex(byteArray)
+
+        // then
+        assertEquals(expected, actual)
+    }
 }
