@@ -42,9 +42,10 @@ object StringUtil {
     fun hex(byteArray: ByteArray): String = byteArray.joinToString("") { hex(it) }
 
     fun hex(byte: Byte): String {
+        val asInt = byte.toInt()
         val digits = "0123456789ABCDEF"
-        val lowByte = byte.toUByte().toInt() and 15
-        val highByte = byte.toUByte().toInt() shr 4
+        val lowByte = asInt and 0b1111
+        val highByte = asInt shr 4 and 0b1111
         val lowDigit = digits[lowByte]
         val highDigit = digits[highByte]
         return "" + highDigit + lowDigit
