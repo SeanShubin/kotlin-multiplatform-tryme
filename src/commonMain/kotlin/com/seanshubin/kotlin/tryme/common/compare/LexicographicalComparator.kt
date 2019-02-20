@@ -54,10 +54,10 @@ object LexicographicalComparator : Comparator<String> {
         val paddedLeft = pad(left, maxSize)
         val paddedRight = pad(right, maxSize)
         val paddedCompare = paddedLeft.compareTo(paddedRight)
-        if (paddedCompare == 0) {
-            return left.length.compareTo(right.length)
+        return if (paddedCompare == 0) {
+            left.length.compareTo(right.length)
         } else {
-            return paddedCompare
+            paddedCompare
         }
     }
 
