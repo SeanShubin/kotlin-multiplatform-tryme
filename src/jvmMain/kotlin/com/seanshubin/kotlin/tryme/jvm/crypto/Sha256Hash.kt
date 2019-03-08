@@ -1,11 +1,13 @@
-package com.seanshubin.kotlin.tryme.jvm.hash
+package com.seanshubin.kotlin.tryme.jvm.crypto
 
 import com.seanshubin.kotlin.tryme.common.format.StringUtil.hex
 import java.security.MessageDigest
 
 class Sha256Hash : OneWayHash {
-    private val messageDigest: MessageDigest by lazy {
-        MessageDigest.getInstance("SHA-256")
+    companion object {
+        private val messageDigest: MessageDigest by lazy {
+            MessageDigest.getInstance("SHA-256")
+        }
     }
 
     override fun hash(s: String): String {

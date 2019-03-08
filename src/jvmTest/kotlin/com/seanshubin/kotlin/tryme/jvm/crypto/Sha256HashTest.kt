@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.jvm.hash
+package com.seanshubin.kotlin.tryme.jvm.crypto
 
 import org.junit.Test
 import kotlin.test.assertEquals
