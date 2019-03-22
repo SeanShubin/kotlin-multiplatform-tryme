@@ -70,6 +70,32 @@ class ListDifferenceTest {
         val difference = ListDifference.compare(a, b)
         assertEquals(false, difference.isSame)
         assertEquals(expectedMessage, difference.messageLines)
+    }
 
+    @Test
+    fun multiLineStrings() {
+        val a =
+            """Some Line
+              |Another Line
+              |Different line A
+              |Final line
+              |""".trimMargin()
+        val b =
+            """Some Line
+              |Another Line
+              |Different line B
+              |Final line
+              |""".trimMargin()
+        val expectedMessage = listOf(
+            "different at index 2",
+            "same[0]: Some Line",
+            "same[1]: Another Line",
+            "different-a[2]: Different line A",
+            "different-b[2]: Different line B",
+            "remaining elements skipped"
+        )
+        val difference = ListDifference.compare(a, b)
+        assertEquals(false, difference.isSame)
+        assertEquals(expectedMessage, difference.messageLines)
     }
 }

@@ -44,5 +44,12 @@ object ListDifference {
         return Difference(isSame, listOf(firstLine) + messageLines + lastLines)
     }
 
+    fun compare(aCaption: String, a: String, bCaption: String, b: String): Difference =
+        compare(aCaption, a.toLines(), bCaption, b.toLines())
+
+    fun compare(a: String, b: String): Difference = compare("a", a, "b", b)
+
+    private fun String.toLines(): List<String> = this.split("\r\n", "\r", "\n")
+
     data class Difference(val isSame: Boolean, val messageLines: List<String>)
 }
