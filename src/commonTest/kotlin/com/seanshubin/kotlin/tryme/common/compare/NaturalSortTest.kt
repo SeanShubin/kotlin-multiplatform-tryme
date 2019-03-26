@@ -3,7 +3,7 @@ package com.seanshubin.kotlin.tryme.common.compare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LexicographicalComparatorTest {
+class NaturalSortTest {
     @Test
     fun compareBlanks() {
         assertEquals(compare("", ""), 0)
@@ -53,5 +53,5 @@ class LexicographicalComparatorTest {
         assertEquals(compare("123abc", "123"), 1)
     }
 
-    private fun compare(left: String, right: String): Int = LexicographicalComparator.compare(left, right)
+    private fun compare(left: String, right: String): Int = NaturalSort.compare(left, right)
 }

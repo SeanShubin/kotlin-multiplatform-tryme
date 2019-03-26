@@ -1,6 +1,6 @@
 package com.seanshubin.kotlin.tryme.common.compare
 
-object LexicographicalComparatorUtil {
+object NaturalSortUtil {
     interface StateMachine {
         fun list(): List<String>
         fun append(c: Char): StateMachine

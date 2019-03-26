@@ -1,9 +1,9 @@
 package com.seanshubin.kotlin.tryme.common.compare
 
-import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparatorUtil.isDigit
-import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparatorUtil.splitNumbers
+import com.seanshubin.kotlin.tryme.common.compare.NaturalSortUtil.isDigit
+import com.seanshubin.kotlin.tryme.common.compare.NaturalSortUtil.splitNumbers
 
-object LexicographicalComparator : Comparator<String> {
+object NaturalSort : Comparator<String> {
     override fun compare(a: String, b: String): Int =
         if (a == b) {
             0

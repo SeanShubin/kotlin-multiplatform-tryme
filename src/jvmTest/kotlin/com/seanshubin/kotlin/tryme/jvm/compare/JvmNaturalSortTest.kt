@@ -3,7 +3,7 @@ package com.seanshubin.kotlin.tryme.jvm.compare
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LexicographicalComparatorTest {
+class NaturalSortTest {
     @Test
     fun compareNulls() {
         assertEquals(0, compare(null, null))
@@ -18,6 +18,6 @@ class LexicographicalComparatorTest {
     }
 
     private fun compare(left: String?, right: String?): Int =
-        JvmLexicographicalComparator.compare(left, right)
+        JvmNaturalSort.compare(left, right)
 }
 

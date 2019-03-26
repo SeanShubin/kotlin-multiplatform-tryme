@@ -1,10 +1,10 @@
 package com.seanshubin.kotlin.tryme.common.compare
 
-import com.seanshubin.kotlin.tryme.common.compare.LexicographicalComparatorUtil.splitNumbers
+import com.seanshubin.kotlin.tryme.common.compare.NaturalSortUtil.splitNumbers
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
-class LexicographicalComparatorUtilTest {
+class NaturalSortUtilTest {
     @Test
     fun splitNumbers() {
         assertEquals(splitNumbers(""), listOf())
