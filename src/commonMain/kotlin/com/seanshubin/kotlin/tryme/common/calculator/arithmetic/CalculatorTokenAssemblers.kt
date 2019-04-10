@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common.calculator
+package com.seanshubin.kotlin.tryme.common.calculator.arithmetic
 
 import com.seanshubin.kotlin.tryme.common.parser.AssemblingCursor
 import com.seanshubin.kotlin.tryme.common.parser.Tree
@@ -7,7 +7,9 @@ object CalculatorTokenAssemblers {
     private val number = { tree: Tree<Char> ->
         var value = 0
         tree.values().forEach {
-            value = value * 10 + digitToInt(it)
+            value = value * 10 + digitToInt(
+                it
+            )
         }
         Token.Number(value)
     }
@@ -29,7 +31,11 @@ object CalculatorTokenAssemblers {
     private fun digitToInt(char: Char): Int = char - '0'
 
     fun cursor(s: String): AssemblingCursor<Char, Token> {
-        val tokenMatchCursor = CalculatorTokenMatchers.cursor(s)
-        return AssemblingCursor(tokenMatchCursor, assemble)
+        val tokenMatchCursor =
+            CalculatorTokenMatchers.cursor(s)
+        return AssemblingCursor(
+            tokenMatchCursor,
+            assemble
+        )
     }
 }

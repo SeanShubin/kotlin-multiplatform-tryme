@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common.calculator
+package com.seanshubin.kotlin.tryme.common.calculator.arithmetic
 
 import com.seanshubin.kotlin.tryme.common.parser.AssemblingCursor
 import com.seanshubin.kotlin.tryme.common.parser.Branch
@@ -10,9 +10,15 @@ object CalculatorExpressionAssemblers {
         require(tree.name == "expression")
         tree as Branch
         require(tree.parts.size == 2)
-        val term = term(tree.parts[0])
-        val termTail = termTail(tree.parts[1])
-        val expression = combineTermWithTermTail(term, termTail)
+        val term =
+            term(tree.parts[0])
+        val termTail =
+            termTail(tree.parts[1])
+        val expression =
+            combineTermWithTermTail(
+                term,
+                termTail
+            )
         return expression
     }
 
@@ -20,8 +26,14 @@ object CalculatorExpressionAssemblers {
         var current = term
         termTail.forEach { termPart ->
             current = when (termPart.operator) {
-                Token.Plus -> Expression.Plus(current, termPart.expression)
-                Token.Minus -> Expression.Minus(current, termPart.expression)
+                Token.Plus -> Expression.Plus(
+                    current,
+                    termPart.expression
+                )
+                Token.Minus -> Expression.Minus(
+                    current,
+                    termPart.expression
+                )
                 else -> throw RuntimeException("Operator ${termPart.operator} is not supported")
             }
         }
@@ -32,16 +44,26 @@ object CalculatorExpressionAssemblers {
         require(tree.name == "term")
         tree as Branch
         require(tree.parts.size == 2)
-        val factor = factor(tree.parts[0])
-        val factorTail = factorTail(tree.parts[1])
-        val expression = combineFactorWithFactorTail(factor, factorTail)
+        val factor =
+            factor(tree.parts[0])
+        val factorTail =
+            factorTail(tree.parts[1])
+        val expression =
+            combineFactorWithFactorTail(
+                factor,
+                factorTail
+            )
         return expression
     }
 
     private fun factor(tree: Tree<Token>): Expression {
         return when (tree.name) {
-            "number" -> number(tree)
-            "expression-in-parenthesis" -> expressionInParenthesis(tree)
+            "number" -> number(
+                tree
+            )
+            "expression-in-parenthesis" -> expressionInParenthesis(
+                tree
+            )
             else -> throw RuntimeException("'${tree.name}' not supported here")
         }
     }
@@ -49,15 +71,21 @@ object CalculatorExpressionAssemblers {
     private fun factorTail(tree: Tree<Token>): List<OperatorExpression> {
         require(tree.name == "factor-tail")
         tree as Branch
-        return tree.parts.map(::factorPart)
+        return tree.parts.map(CalculatorExpressionAssemblers::factorPart)
     }
 
     private fun combineFactorWithFactorTail(factor: Expression, factorTail: List<OperatorExpression>): Expression {
         var current = factor
         factorTail.forEach { operatorExpression ->
             current = when (operatorExpression.operator) {
-                Token.Times -> Expression.Times(current, operatorExpression.expression)
-                Token.Divide -> Expression.Divide(current, operatorExpression.expression)
+                Token.Times -> Expression.Times(
+                    current,
+                    operatorExpression.expression
+                )
+                Token.Divide -> Expression.Divide(
+                    current,
+                    operatorExpression.expression
+                )
                 else -> throw RuntimeException("Operator ${operatorExpression.operator} is not supported")
             }
         }
@@ -68,8 +96,10 @@ object CalculatorExpressionAssemblers {
         require(tree.name == "term-part")
         tree as Branch
         require(tree.parts.size == 2)
-        val operator = operator(tree.parts[0])
-        val term = term(tree.parts[1])
+        val operator =
+            operator(tree.parts[0])
+        val term =
+            term(tree.parts[1])
         return OperatorExpression(operator, term)
     }
 
@@ -77,15 +107,17 @@ object CalculatorExpressionAssemblers {
         require(tree.name == "factor-part")
         tree as Branch
         require(tree.parts.size == 2)
-        val operator = operator(tree.parts[0])
-        val factor = factor(tree.parts[1])
+        val operator =
+            operator(tree.parts[0])
+        val factor =
+            factor(tree.parts[1])
         return OperatorExpression(operator, factor)
     }
 
     private fun termTail(tree: Tree<Token>): List<OperatorExpression> {
         require(tree.name == "term-tail")
         tree as Branch
-        return tree.parts.map(::termPart)
+        return tree.parts.map(CalculatorExpressionAssemblers::termPart)
     }
 
     private fun operator(tree: Tree<Token>): Token {
@@ -112,14 +144,20 @@ object CalculatorExpressionAssemblers {
 
     val assemble: (String, Tree<Token>) -> Expression = { name: String, tree: Tree<Token> ->
         when (name) {
-            "expression" -> expression(tree)
+            "expression" -> expression(
+                tree
+            )
             else -> throw RuntimeException("Unable to assemble a '$name'")
         }
     }
 
     fun cursor(s: String): AssemblingCursor<Token, Expression> {
-        val expressionMatchCursor = CalculatorExpressionMatchers.cursor(s)
-        return AssemblingCursor(expressionMatchCursor, assemble)
+        val expressionMatchCursor =
+            CalculatorExpressionMatchers.cursor(s)
+        return AssemblingCursor(
+            expressionMatchCursor,
+            assemble
+        )
     }
 
     fun parse(s: String): Expression {
@@ -131,5 +169,7 @@ object CalculatorExpressionAssemblers {
         return expression
     }
 
-    fun eval(s: String): Int = parse(s).eval()
+    fun eval(s: String): Int = parse(
+        s
+    ).eval()
 }

@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common.calculator
+package com.seanshubin.kotlin.tryme.common.calculator.arithmetic
 
 import com.seanshubin.kotlin.tryme.common.parser.MatchException
 import kotlin.test.Test

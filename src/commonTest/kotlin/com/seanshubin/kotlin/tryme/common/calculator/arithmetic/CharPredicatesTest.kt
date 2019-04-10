@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common.calculator
+package com.seanshubin.kotlin.tryme.common.calculator.arithmetic
 
 import kotlin.test.Test
 import kotlin.test.assertEquals

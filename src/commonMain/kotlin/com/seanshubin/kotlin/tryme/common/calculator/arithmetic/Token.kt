@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common.calculator
+package com.seanshubin.kotlin.tryme.common.calculator.arithmetic
 
 interface Token {
     data class Number(val value: Int) : Token

@@ -1,11 +1,14 @@
-package com.seanshubin.kotlin.tryme.common.calculator
+package com.seanshubin.kotlin.tryme.common.calculator.arithmetic
 
 import com.seanshubin.kotlin.tryme.common.cursor.RowColCursor
 import com.seanshubin.kotlin.tryme.common.parser.*
 
 object CalculatorTokenMatchers {
     private val digit = OneOfChar("digit", "0123456789")
-    private val number = OneOrMore("number", ::get, "digit")
+    private val number = OneOrMore(
+        "number",
+        CalculatorTokenMatchers::get, "digit"
+    )
     private val plus = Value("plus", '+')
     private val minus = Value("minus", '-')
     private val times = Value("times", '*')
@@ -13,10 +16,13 @@ object CalculatorTokenMatchers {
     private val openParen = Value("open-paren", '(')
     private val closeParen = Value("close-paren", ')')
     private val whitespaceChar = Value("whitespace-char", ' ')
-    private val whitespaceBlock = OneOrMore("whitespace-block", ::get, "whitespace-char")
+    private val whitespaceBlock = OneOrMore(
+        "whitespace-block",
+        CalculatorTokenMatchers::get, "whitespace-char"
+    )
     private val token = OneOf(
         "token",
-        ::get,
+        CalculatorTokenMatchers::get,
         "number",
         "plus",
         "minus",
@@ -27,7 +33,17 @@ object CalculatorTokenMatchers {
         "whitespace-block"
     )
     private val matcherList = listOf(
-        digit, number, plus, minus, times, divide, openParen, closeParen, whitespaceChar, whitespaceBlock, token
+        digit,
+        number,
+        plus,
+        minus,
+        times,
+        divide,
+        openParen,
+        closeParen,
+        whitespaceChar,
+        whitespaceBlock,
+        token
     )
     private val matcherMap = matcherList.map { Pair(it.name, it) }.toMap()
     operator fun get(name: String): Matcher<Char> =

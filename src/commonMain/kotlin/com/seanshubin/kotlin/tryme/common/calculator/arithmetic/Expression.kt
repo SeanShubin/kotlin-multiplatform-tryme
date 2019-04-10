@@ -1,4 +1,4 @@
-package com.seanshubin.kotlin.tryme.common.calculator
+package com.seanshubin.kotlin.tryme.common.calculator.arithmetic
 
 interface Expression {
     fun eval(): Int
@@ -6,19 +6,23 @@ interface Expression {
         override fun eval(): Int = value
     }
 
-    data class Plus(val left: Expression, val right: Expression) : Expression {
+    data class Plus(val left: Expression, val right: Expression) :
+        Expression {
         override fun eval(): Int = left.eval() + right.eval()
     }
 
-    data class Minus(val left: Expression, val right: Expression) : Expression {
+    data class Minus(val left: Expression, val right: Expression) :
+        Expression {
         override fun eval(): Int = left.eval() - right.eval()
     }
 
-    data class Times(val left: Expression, val right: Expression) : Expression {
+    data class Times(val left: Expression, val right: Expression) :
+        Expression {
         override fun eval(): Int = left.eval() * right.eval()
     }
 
-    data class Divide(val left: Expression, val right: Expression) : Expression {
+    data class Divide(val left: Expression, val right: Expression) :
+        Expression {
         override fun eval(): Int = left.eval() / right.eval()
     }
 }
