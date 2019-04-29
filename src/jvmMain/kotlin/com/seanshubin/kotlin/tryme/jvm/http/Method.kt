@@ -29,6 +29,6 @@ enum class Method {
 
     companion object {
         fun fromString(s: String): Method =
-            Method.values().filter { it.name.equals(s, ignoreCase = true) }.exactlyOne()
+            values().filter { it.name.equals(s, ignoreCase = true) }.exactlyOne()
     }
 }
