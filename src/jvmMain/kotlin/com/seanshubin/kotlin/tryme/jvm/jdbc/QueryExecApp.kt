@@ -2,6 +2,8 @@ package com.seanshubin.kotlin.tryme.jvm.jdbc
 
 import com.seanshubin.kotlin.tryme.common.format.RowStyleTableFormatter
 import com.seanshubin.kotlin.tryme.common.format.TableFormatter
+import com.seanshubin.kotlin.tryme.jvm.contract.FilesContract
+import com.seanshubin.kotlin.tryme.jvm.contract.FilesDelegate
 import com.seanshubin.kotlin.tryme.jvm.logger.ConsoleAndFileLogger
 import com.seanshubin.kotlin.tryme.jvm.timer.Timer
 import java.nio.file.Paths
@@ -17,7 +19,9 @@ fun main(args: Array<String>) {
         RowStyleTableFormatter.boxDrawing.copy(cellToString = TableFormatter.escapeAndTruncateString(100))
     val path = Paths.get("out", "log")
     val clock = Clock.systemDefaultZone()
-    val logger = ConsoleAndFileLogger(path, name, clock)
+    val emit: (String) -> Unit = ::println
+    val files: FilesContract = FilesDelegate
+    val logger = ConsoleAndFileLogger(emit, files, path, name, clock)
     val logTable: (List<List<Any?>>) -> Unit = { data ->
         val table = tableFormatter.format(data)
         logger.log(table)
