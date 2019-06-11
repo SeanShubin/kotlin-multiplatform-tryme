@@ -3,8 +3,6 @@ plugins {
 }
 repositories {
     mavenCentral()
-    jcenter()
-    mavenLocal()
 }
 group 'com.example'
 version '0.0.1'
@@ -35,9 +33,6 @@ kotlin {
         jvmMain {
             dependencies {
                 implementation kotlin('stdlib-jdk8')
-                implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
-                implementation 'khttp:khttp:0.1.0'
-                implementation 'com.oracle:ojdbc:18.3'
                 implementation 'com.fasterxml.jackson.module:jackson-module-kotlin:2.9.7'
             }
         }
