@@ -33,7 +33,11 @@ object StringUtil {
         return sb.toString()
     }
 
+    fun String.clean():String = this.trim().replace(Regex("""\s+"""), " ")
+
     fun String.toLines(): List<String> = this.split("\r\n", "\r", "\n")
+
+    fun List<String>.clean():List<String> = this.map { it.clean() }.filter{ !it.isBlank()}
 
     fun String.truncate(max: Int): String =
         if (this.length > max) "<${this.length} characters, showing first $max> ${this.substring(0, max)}"

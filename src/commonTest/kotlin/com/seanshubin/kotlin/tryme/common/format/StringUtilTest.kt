@@ -4,6 +4,7 @@ import com.seanshubin.kotlin.tryme.common.format.StringUtil.escape
 import com.seanshubin.kotlin.tryme.common.format.StringUtil.toLines
 import com.seanshubin.kotlin.tryme.common.format.StringUtil.truncate
 import com.seanshubin.kotlin.tryme.common.format.StringUtil.unescape
+import com.seanshubin.kotlin.tryme.common.format.StringUtil.clean
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
@@ -50,6 +51,24 @@ class StringUtilTest {
 
         // when
         val actual = StringUtil.hex(byteArray)
+
+        // then
+        assertEquals(expected, actual)
+    }
+
+    @Test
+    fun clean(){
+        assertEquals("foo bar", "  foo  bar  ".clean())
+    }
+
+    @Test
+    fun cleanList(){
+        // given
+        val list = listOf("", "  foo  bar  ", "", "biz\tbaz", "")
+        val expected = listOf("foo bar", "biz baz")
+
+        // when
+        val actual = list.clean()
 
         // then
         assertEquals(expected, actual)
