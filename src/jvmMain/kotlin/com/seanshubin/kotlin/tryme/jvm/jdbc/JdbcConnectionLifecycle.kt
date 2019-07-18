@@ -5,7 +5,11 @@ import java.sql.DriverManager
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 
-class JdbcConnectionLifecycle(val url: String, val user: String, val password: String) : ConnectionLifecycle {
+class JdbcConnectionLifecycle(
+    private val url: String,
+    private val user: String,
+    private val password: String
+) : ConnectionLifecycle {
     override fun <T> withResultSet(sqlQuery: String, doSomethingWithResultSet: (ResultSet) -> T): T =
         withPreparedStatement(sqlQuery) { statement ->
             val resultSet = statement.executeQuery()
