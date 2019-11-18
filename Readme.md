@@ -17,7 +17,7 @@
 - coroutines
     - suspend functions are analogous to async/await
     - suspend functions are only allowed to be called from a coroutine or another suspend function
-    - [SyncPrimes](com/seanshubin/kotlin/tryme/jvm/async/SyncPrimes.kt) vs. [AsyncPrimes](com/seanshubin/kotlin/tryme/jvm/async/AsyncPrimes.kt)
+    - [SyncPrimes](src/jvmMain/kotlin/com/seanshubin/kotlin/tryme/jvm/async/SyncPrimes.kt) vs. [AsyncPrimes](src/jvmMain/kotlin/com/seanshubin/kotlin/tryme/jvm/async/AsyncPrimes.kt)
     - [light weight](https://kotlinlang.org/docs/reference/coroutines/basics.html#coroutines-are-light-weight)
 - from java
     - [enumerated types](https://kotlinlang.org/docs/reference/enum-classes.html)
@@ -27,7 +27,7 @@
     - [primary constructor](https://kotlinlang.org/docs/reference/classes.html#constructors)
     - [companion objects](https://kotlinlang.org/docs/reference/object-declarations.html#companion-objects)
 - [can destructure data classes as if they were a tuple](src/commonTest/kotlin/com/seanshubin/kotlin/tryme/common/language/LanguageSamplesTest.kt)
-- operator overloading
+- [operator overloading](https://kotlinlang.org/docs/reference/operator-overloading.html)
     - uses predefined names
     - can't make your own
     - explicit "operator" keyword
