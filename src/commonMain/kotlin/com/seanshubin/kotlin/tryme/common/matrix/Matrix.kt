@@ -43,6 +43,11 @@ data class Matrix<T>(val rows: List<List<T>>, val size: Size) {
 
     fun colVector(i: Int): List<T> = transpose().rowVector(i)
 
+    fun mutableCopy(): MutableList<MutableList<T>> =
+        rows.map { row ->
+            row.toMutableList()
+        }.toMutableList()
+
     companion object {
         fun <T> inferRowsFromSize(size: Size, value: T): List<List<T>> =
             inferRowsFromSize(size) { _, _ -> value }
